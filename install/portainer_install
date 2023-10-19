@@ -13,18 +13,13 @@ YELLOW='\e[33m'
 RED='\e[31m'
 RESET='\e[0m'
 
-show_help() {
-  GREEN='\e[32m'
-  BLUE='\e[34m'
-  CYAN='\e[36m'
-  YELLOW='\e[33m'
-  RED='\e[31m'
-  RESET='\e[0m'
-  
-  echo -e "${GREEN}Dieses Skript fürt automatische Updates sowie Konfigurationen durch${RESET}"
-  echo -e "${GREEN}Es aktualisiert die Paketquellen, führt ein Paketupgrade durch und bietet die Option, bestimmte Services zu installieren.${RESET}"
-  echo -e "${CYAN}Verwendung:${RESET}"
-  echo -e "${CYAN}  ./scriptname              - Führt das Skript aus.${RESET}"
-  echo -e "${CYAN}  ./scriptname help or ?    - Zeigt diese Hilfe an.${RESET}"
-  exit 0
+install_latest_release() {
+  echo "Die neueste Version von Portainer wird heruntergeladen."
+  sudo docker pull portainer:latest
+  echo -e "Das Portainer Volume ${GREEN}portainer_data ${RESET}wird erstellt.${REST}"
+  sudo docker volume create portainer_data
+  echo "Portainer wird nun auf den Ports 8000 und 9443 konfiguriert."
+  docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+  echo -e "${GREEN}Portainer wurde erfolgreich installiert.${REST}"
+  echo "Portainer ist erreichbar unter https://localhost:9443."
 }
