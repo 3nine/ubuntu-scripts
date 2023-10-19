@@ -23,3 +23,8 @@ install_latest_release() {
   echo -e "${GREEN}Portainer wurde erfolgreich installiert.${REST}"
   echo "Portainer ist erreichbar unter https://localhost:9443."
 }
+
+install_latest_release
+
+echo -e "${GREEN}Das Skript wurde erfolgreich ausgeführt."
+clear
