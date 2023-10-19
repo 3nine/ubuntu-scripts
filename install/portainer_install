@@ -19,7 +19,7 @@ install_latest_release() {
   echo -e "Das Portainer Volume ${GREEN}portainer_data ${RESET}wird erstellt.${REST}"
   sudo docker volume create portainer_data > /dev/null 2>&1
   echo "Portainer wird nun auf den Ports 8000 und 9443 konfiguriert."
-  docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest > /dev/null 2>&1
+  docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest > /dev/null
   echo -e "${GREEN}Portainer wurde erfolgreich installiert.${REST}"
   echo "Portainer ist erreichbar unter https://localhost:9443."
 }
