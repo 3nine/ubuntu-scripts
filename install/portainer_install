@@ -13,6 +13,8 @@ YELLOW='\e[33m'
 RED='\e[31m'
 RESET='\e[0m'
 
+# --------> Start <--------
+
 install_latest_release() {
   echo "Die neueste Version von Portainer wird heruntergeladen."
   sudo docker pull portainer:latest > /dev/null 2>&1
