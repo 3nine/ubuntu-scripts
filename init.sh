@@ -10,6 +10,7 @@ GREEN='\e[32m'
 BLUE='\e[34m'
 CYAN='\e[36m'
 YELLOW='\e[33m'
+RED='\e[31m'
 RESET='\e[0m'
 
 show_help() {
@@ -17,6 +18,7 @@ show_help() {
   BLUE='\e[34m'
   CYAN='\e[36m'
   YELLOW='\e[33m'
+  RED='\e[31m'
   RESET='\e[0m'
   
   echo -e "${GREEN}Dieses Skript fürt automatische Updates sowie Konfigurationen durch${RESET}"
@@ -169,19 +171,21 @@ case $response in
     echo -e "${YELLOW}Abbruch.${RESET}" ;;
 esac
 
+# Benutzerabfrage, ob das System heruntergefahren werden soll
+dialog --title "Skript abgeschlossen" --yesno "Das Skript wurde abgeschlossen. Möchten Sie das System neu starten?" 0 0
 
+# Überprüft die Antwort auf die Benutzerabfrage
+response_restart=$?
+case $response_restart in
+  0)
+    echo -e "${GREEN}Der Raspberry Pi wird neu gestartet.${RESET}"
+    clear
+    sudo shutdown now ;; # Benutzer hat "Ja" ausgewählt, das System wird heruntergefahren
+  1)
+    echo -e "${GREEN}Der Raspberry Pi bleibt eingeschaltet.${RESET}" ;; # Benutzer hat "Nein" ausgewählt, das Skript wird beendet
+  255)
+    echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat Abbruch ausgewählt
+esac
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#Lösche das Konsolenfenster
+clear
