@@ -1,9 +1,9 @@
 #!/bin/bash
 # Version 1.0
-# Copyright (c) 2023 tteck
+# Copyright (c) 2023 3nine
 # Author: 3nine
 # License: MIT
-# https://github.com/3nine/pi/auto_update.sh
+# https://github.com/3nine/pi/main/LICENSE.md
 
 # Aktualisiere die Paketquellen
 sudo apt-get update -y > /dev/null 2>&1
