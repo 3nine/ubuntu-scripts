@@ -45,8 +45,49 @@ install_docker() {
 }
 
 install_docker-compose() {
-  echo -e "${BLUE}Schritt 13: Installiere Fail2Ban und richte eine Grundkonfiguration ein.${RESET}"
+  echo -e "${BLUE}Installiere Docker-Compose...${RESET}"
   sudo apt install docker-compose-plugin
-  echo -e "${BLUE}Schritt 13: Fail2Ban wurde installiert und konfiguriert.${RESET}"
+  echo -e "${BLUE}Docker-Compose wurde installiert.${RESET}"
 }
+
+pause() {
+  sleep 2 # 2 Sekunden Pause
+}
+
+autoremove() {
+  echo -e "${BLUE}Schritt 3: Überprüfe, ob Pakete zum Entfernen verfügbar sind.${RESET}"
+  autoremove_output=$(sudo apt-get autoremove -s > /dev/null 2>&1)
+
+  if [[ "$autoremove_output" == *"Die folgenden Pakete werden entfernt"* ]]; then
+    echo -e "${BLUE}Schritt 3: Bereinigung wird durchgeführt, um ungenutzte Pakete zu entfernen.${RESET}"
+    sudo apt-get autoremove -y > /dev/null 2>&1
+    echo -e "${BLUE}Schritt 3: Bereinigung abgeschlossen.${RESET}"
+  else
+    echo -e "${YELLOW}Keine Pakete zum Entfernen gefunden. Der Schritt 3 wird übersprungen.${RESET}"
+  fi
+}
+
+# --------> Start <--------
+
+# Prüfe ob Arg1 "?" oder "help" ist
+if [ "$1" = "?" ] || [ "$1" = "help" ]; then
+  show_help
+fi
+
+sudo echo "Um dieses Skript auszuführen, sind Root Berechtigungen nötig."
+
+echo -e "Grundinstallation eines Pi's"
+
+
+
+
+
+
+
+
+
+
+
+
+
 
