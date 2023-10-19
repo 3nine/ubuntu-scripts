@@ -1,9 +1,9 @@
 #!/bin/bash
 # Version 1.6
-# Copyright (c) 2023 tteck
+# Copyright (c) 2023 3nine
 # Author: 3nine
 # License: MIT
-# https://github.com/3nine/pi/init.sh
+# https://github.com/3nine/pi/main/LICENSE.md
 
 # Setze die Farben für die Ausgabe
 GREEN='\e[32m'
