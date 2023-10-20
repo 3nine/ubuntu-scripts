@@ -115,7 +115,7 @@ echo -e "${GREEN}Upgrade abgeschlossen${RESET}"
 autoremove
 
 check_docker_installed
-if docker_installed; then
+if $docker_installed; then
   echo -e "${YELLOW}Docker ist bereits installiert, daher wird dieser Schritt übersprungen!${RESET}"
 else
   # Abfrage Docker Installation
@@ -180,8 +180,7 @@ EOL
     # Konfiguration anwenden
     sudo netplan apply
 
-    if [ $? -eq 0]; then
-      clear
+    if [ $? -eq 0 ]; then
       echo -e "${GREEN}Die Konfiguration wurde erfolgreich übernommen.${RESET}"
     else
       echo -e "${RED}Die Konfiguration konnte nicht übernommen werden.${RESET}"
