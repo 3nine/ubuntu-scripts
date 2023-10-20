@@ -140,6 +140,7 @@ else
              echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
          esac
       fi
+      ;;
     1)
       echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" ;; #Benutzer möchte Docker nicht installieren
     255)
