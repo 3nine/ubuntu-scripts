@@ -91,7 +91,7 @@ autoremove() {
 check_root() {
   if [[ "$(id -u)" -ne 0 || $(ps -o comm= -p $PPID) == "sudo" ]]; then
     clear
-    msg_error "Bitte führe diese Skript als Root aus"
+    echo -e "${RED}Bitte führe diese Skript als Root aus${RESET}"
     echo -e "\nAbbruch..."
     sleep 2
     exit
