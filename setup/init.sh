@@ -163,13 +163,14 @@ case $response_ipadress in
 
     # Erstellen der Konfiguration mit Netplan
     cat > /etc/netplan/01-netcfg.yaml <<EOL
-    network:
-      version: 2
-      ethernets:
-        $interface:
-          addresses: [$ipaddress/$subnet_mask]
-          gateway4: $gateway
-    EOL
+network:
+  version: 2
+  ethernets:
+    $interface:
+      addresses: [$ipaddress/$subnet_mask]
+      gateway4: $gateway
+EOL
+
 
     # Konfiguration anwenden
     sudo netplan apply
