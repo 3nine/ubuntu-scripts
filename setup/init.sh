@@ -111,7 +111,7 @@ autoremove
 
 clear
 check_docker_installed
-if $docker_installed; then
+if docker_installed; then
   echo -e "${YELLOW}Docker ist bereits installiert, daher wird dieser Schritt übersprungen!${RESET}"
 else
   # Abfrage Docker Installation
