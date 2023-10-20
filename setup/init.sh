@@ -29,6 +29,13 @@ show_help() {
   exit 0
 }
 
+check_netplan_installed() {
+  if (dpkg -l | grep -q "netplan.io"); then
+    $netplan_installed=true
+  else
+    $netplan_installed=false
+}
+
 check_docker_installed() {
   if dpkg -l | grep -q "docker"; then
     docker_installed=true
@@ -53,8 +60,14 @@ install_docker() {
 
 install_docker_compose() {
   echo -e "${BLUE}Installiere Docker-Compose...${RESET}"
-  sudo apt install docker-compose-plugin
+  sudo apt install docker-compose-plugin > /dev/null  2>&1
   echo -e "${BLUE}Docker-Compose wurde installiert.${RESET}"
+}
+
+install_netplan() [
+  echo -e "${BLUE}Installiere Netplan.io"
+  sudo apt install netplan.io > /dev/null  2>&1
+  echo -e "${BLUE}Netplan.io wurde installiert.${RESET}"
 }
 
 pause() {
@@ -139,36 +152,54 @@ else
     255)
       echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
 
+# Abfrage ob eine IP-Adres Konfigraution stattfinden soll
+dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
+response_ipadress=$?
+case $response_ipadress
+  0)
+    clear
+    # Sammle Informationen dazu welche IP verwendet werden soll
+    $ipadress=dialog --title "IP-Adresse" --inputbox "Legen Sie eine IP-Adresse fest. (Format: X.X.X.X)"
+    $subnet_mask=dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)"
+    $gateway=dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 
 
+    # Interface festlegen
+    $interface="eth0"
 
+    # Erstellen der Konfiguration mit Netplan
+    cat > /etc/netplan/01-netcfg.yaml <<EOL
+    network:
+      version: 2
+      ethernets:
+        $interface:
+          addresses: [$ipaddress/$subnet_mask]
+          gateway4: $gateway
+    EOL
 
+    # Konfiguration anwenden
+    sudo netplan apply
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    if [ $? -eq 0]; then
+      clear
+      echo -e "${GREEN}Die Konfiguration wurde erfolgreich übernommen.${RESET}"
+    else
+      echo -e "${RED}Die Konfiguration konnte nicht übernommen werden.${RESET}"
+    fi
+  1)
+    echo -e "${GREEN}Die IP-Konfiguration wurde nicht verändert.${RESET}"
+  255)
+    echo -e "${YELLOW}Abbruch.${RESET}"
+esac
 
 # Autoupdate Abfrage
 dialog --title "Autoupdate aktivieren" --yesno "Möchten Sie Autoupdate aktivieren? Wenn ja, werden wöchentliche Updates automatisch Samstags um 00:00 Uhr durchgeführt." 0 0
 
-response=$?
-case $response in
+response_autoupdate=$?
+case $response_autoupdate in
   0)
     echo -e "${YELLOW}Autoupdate wird aktiviert.${RESET}"
     sudo mkdir -p /opt/update/
-    sudo curl -o /opt/update/update-script.sh https://raw.githubusercontent.com/3nine/pi/auto_update.sh
+    sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/auto_update.sh
     sudo chmod +x /opt/update/auto_update.sh
     (crontab -l ; echo "0 0 * * 6 /opt/update/auto_update.sh") | crontab -
     echo -e "${BLUE}Autoupdate aktiviert.${RESET}"
