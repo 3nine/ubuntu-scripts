@@ -121,6 +121,7 @@ autoremove
 check_docker_installed
 if $docker_installed; then
   echo -e "${YELLOW}Docker ist bereits installiert, daher wird dieser Schritt übersprungen!${RESET}"
+  pause
 else
   # Abfrage Docker Installation
   dialog --title "Docker Installation" --yesno "Möchten Sie Docker installieren?" 0 0
@@ -161,16 +162,16 @@ dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 
 response_ipadress=$?
 case $response_ipadress in
   0)
-    clear
     # Sammle Informationen dazu welche IP verwendet werden soll
-    $ipadress=dialog --title "IP-Adresse" --inputbox "Legen Sie eine IP-Adresse fest. (Format: X.X.X.X)"
-    $subnet_mask=dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)"
-    $gateway=dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 
+    ipadress=dialog --title "IP-Adresse" --inputbox "Legen Sie eine IP-Adresse fest. (Format: X.X.X.X)"
+    subnet_mask=dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)"
+    gateway=dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 
 
     # Interface festlegen
-    $interface="eth0"
+    interface="eth0"
 
     # Erstellen der Konfiguration mit Netplan
+    sudo touch /etc/netplan/01-netcfg.yaml
     cat > /etc/netplan/01-netcfg.yaml <<EOL
 network:
   version: 2
