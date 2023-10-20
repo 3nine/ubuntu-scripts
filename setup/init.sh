@@ -120,7 +120,7 @@ echo -e "${GREEN}Upgrade abgeschlossen${RESET}"
 autoremove
 
 clear
-check_dockerinstalled
+check_docker_installed
 if $docker_installed; then
   echo -e "${YELLOW}Docker ist bereits installiert, daher wird dieser Schritt übersprungen!${RESET}"
 else
@@ -132,7 +132,7 @@ else
       clear
       install_docker ;; # Benutzer möchte Docker installieren
 
-      # Teste ob Docker-Compose mit installiert wurde.
+      # Teste ob Docker-Compose mit installiert wurde
       check_docker_compose_installed
       if $docker_compose_installed; then
         clear
