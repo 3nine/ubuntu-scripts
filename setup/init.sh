@@ -40,8 +40,10 @@ check_netplan_installed() {
 check_docker_installed() {
   if dpkg -l | grep -q "docker-ce"; then
     docker_installed=true
+    echo $docker_installed
   else
     docker_installed=false
+    echo $docker_installed
   fi
 }
 
