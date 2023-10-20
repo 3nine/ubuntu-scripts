@@ -181,10 +181,11 @@ EOL
     else
       echo -e "${RED}Die Konfiguration konnte nicht übernommen werden.${RESET}"
     fi
+    ;;
   1)
-    echo -e "${GREEN}Die IP-Konfiguration wurde nicht verändert.${RESET}"
+    echo -e "${GREEN}Die IP-Konfiguration wurde nicht verändert.${RESET}" ;;
   255)
-    echo -e "${YELLOW}Abbruch.${RESET}"
+    echo -e "${YELLOW}Abbruch.${RESET}" ;;
 esac
 
 # Autoupdate Abfrage
