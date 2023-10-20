@@ -38,7 +38,7 @@ check_netplan_installed() {
 }
 
 check_docker_installed() {
-  if dpkg -l | grep -q "docker"; then
+  if dpkg -l | grep -q "docker-ce"; then
     docker_installed=true
   else
     docker_installed=false
@@ -46,7 +46,7 @@ check_docker_installed() {
 }
 
 check_docker_compose_installed() {
-  if dpkg -l | grep -q "docker-compose"; then
+  if dpkg -l | grep -q "docker-compose-plugin"; then
     docker_compose_installed=true
   else
     docker_compose_installed=false
@@ -57,18 +57,21 @@ install_docker() {
   echo -e "${BLUE}Installiere Docker...${RESET}"
   sudo curl -sSL https://get.docker.com/ | CHANNEL=stable sh > /dev/null 2>&1
   echo -e "${BLUE}Docker wurde installiert.${RESET}"
+  pause
 }
 
 install_docker_compose() {
   echo -e "${BLUE}Installiere Docker-Compose...${RESET}"
   sudo apt install docker-compose-plugin > /dev/null  2>&1
   echo -e "${BLUE}Docker-Compose wurde installiert.${RESET}"
+  pause
 }
 
 install_netplan() {
   echo -e "${BLUE}Installiere Netplan.io"
   sudo apt install netplan.io > /dev/null  2>&1
   echo -e "${BLUE}Netplan.io wurde installiert.${RESET}"
+  pause
 }
 
 pause() {
