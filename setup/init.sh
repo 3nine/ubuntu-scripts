@@ -34,6 +34,7 @@ check_netplan_installed() {
     $netplan_installed=true
   else
     $netplan_installed=false
+  fi
 }
 
 check_docker_installed() {
