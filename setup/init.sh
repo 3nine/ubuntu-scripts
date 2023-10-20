@@ -150,7 +150,7 @@ else
 # Abfrage ob eine IP-Adress Konfigraution stattfinden soll
 dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
 response_ipadress=$?
-case $response_ipadress
+case $response_ipadress in
   0)
     clear
     # Sammle Informationen dazu welche IP verwendet werden soll
