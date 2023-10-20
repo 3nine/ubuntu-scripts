@@ -140,13 +140,13 @@ else
              echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" # Benutzer möchte Docker-Compose nicht installieren
              ;;
            255)
-             echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
+             echo -e "${RED}Abbruch.${RESET}" # Benutzer hat abbruch gewählt
              ;;
     1)
       echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" #Benutzer möchte Docker nicht installieren
       ;;
     255)
-      echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
+      echo -e "${RED}Abbruch.${RESET}" # Benutzer hat abbruch gewählt
       ;;
 
 # Abfrage ob eine IP-Adres Konfigraution stattfinden soll
