@@ -20,7 +20,7 @@ show_help() {
   YELLOW='\e[33m'
   RED='\e[31m'
   RESET='\e[0m'
-  
+
   echo -e "${GREEN}Dieses Skript fürt automatische Updates sowie Konfigurationen durch${RESET}"
   echo -e "${GREEN}Es aktualisiert die Paketquellen, führt ein Paketupgrade durch und bietet die Option, bestimmte Services zu installieren.${RESET}"
   echo -e "${CYAN}Verwendung:${RESET}"
@@ -31,9 +31,9 @@ show_help() {
 
 check_netplan_installed() {
   if (dpkg -l | grep -q "netplan.io"); then
-    $netplan_installed=true
+    netplan_installed=true
   else
-    $netplan_installed=false
+    netplan_installed=false
   fi
 }
 
