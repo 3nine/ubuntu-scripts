@@ -120,8 +120,8 @@ else
   case $response_docker in
     0)
       clear
+      # Benutzer möchte Docker installieren
       install_docker
-      ;; # Benutzer möchte Docker installieren
 
       # Teste ob Docker-Compose mit installiert wurde
       check_docker_compose_installed
