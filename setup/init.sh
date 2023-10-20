@@ -56,7 +56,7 @@ check_docker_compose_installed() {
 install_docker() {
   echo -e "${BLUE}Installiere Docker...${RESET}"
   sudo curl -sSL https://get.docker.com/ | CHANNEL=stable sh > /dev/null 2>&1
-  echo -e "${BLUE}Docker wurde installiertt.${RESET}"
+  echo -e "${BLUE}Docker wurde installiert.${RESET}"
 }
 
 install_docker_compose() {
@@ -76,25 +76,15 @@ pause() {
 }
 
 autoremove() {
-  echo -e "${BLUE}Schritt 3: Überprüfe, ob Pakete zum Entfernen verfügbar sind.${RESET}"
+  echo -e "${BLUE}Überprüfe, ob Pakete zum Entfernen verfügbar sind.${RESET}"
   autoremove_output=$(sudo apt-get autoremove -s > /dev/null 2>&1)
 
   if [[ "$autoremove_output" == *"Die folgenden Pakete werden entfernt"* ]]; then
-    echo -e "${BLUE}Schritt 3: Bereinigung wird durchgeführt, um ungenutzte Pakete zu entfernen.${RESET}"
+    echo -e "${BLUE}Bereinigung wird durchgeführt, um ungenutzte Pakete zu entfernen.${RESET}"
     sudo apt-get autoremove -y > /dev/null 2>&1
-    echo -e "${BLUE}Schritt 3: Bereinigung abgeschlossen.${RESET}"
+    echo -e "${BLUE}Bereinigung abgeschlossen.${RESET}"
   else
-    echo -e "${YELLOW}Keine Pakete zum Entfernen gefunden. Der Schritt 3 wird übersprungen.${RESET}"
-  fi
-}
-
-check_root() {
-  if [[ "$(id -u)" -ne 0 || $(ps -o comm= -p $PPID) == "sudo" ]]; then
-    clear
-    echo -e "${RED}Bitte führe diese Skript als Root aus${RESET}"
-    echo -e "\nAbbruch..."
-    sleep 2
-    exit
+    echo -e "${YELLOW}Keine Pakete zum Entfernen gefunden.${RESET}"
   fi
 }
 
@@ -104,8 +94,6 @@ check_root() {
 if [ "$1" = "?" ] || [ "$1" = "help" ]; then
   show_help
 fi
-
-check_root
 
 echo -e "Grundinstallation eines Pi's"
 # Führt ein Update der Paketquellen durch
