@@ -146,7 +146,7 @@ else
     255)
       echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
   esac
-
+fi
 # Abfrage ob eine IP-Adress Konfigraution stattfinden soll
 dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
 response_ipadress=$?
