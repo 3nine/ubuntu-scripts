@@ -157,6 +157,7 @@ else
       echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
   esac
 fi
+
 # Abfrage ob eine IP-Adress Konfigraution stattfinden soll
 dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
 response_ipadress=$?
@@ -196,6 +197,29 @@ EOL
   255)
     echo -e "${YELLOW}Abbruch.${RESET}" ;;
 esac
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Autoupdate Abfrage
 dialog --title "Autoupdate aktivieren" --yesno "Möchten Sie Autoupdate aktivieren? Wenn ja, werden wöchentliche Updates automatisch Samstags um 00:00 Uhr durchgeführt." 0 0
