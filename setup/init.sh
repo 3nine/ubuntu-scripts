@@ -109,7 +109,6 @@ echo -e "${GREEN}Upgrade abgeschlossen${RESET}"
 # Aufruf function autoremove
 autoremove
 
-clear
 check_docker_installed
 if docker_installed; then
   echo -e "${YELLOW}Docker ist bereits installiert, daher wird dieser Schritt übersprungen!${RESET}"
@@ -134,22 +133,18 @@ else
          case $response_docker_compose in
            0)
              clear
-             install_docker_compose
-             ;; # Docker Compose wurde nicht installiert aber der Benutzer möchte es installieren
+             install_docker_compose ;; # Docker Compose wurde nicht installiert aber der Benutzer möchte es installieren
            1)
-             echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" # Benutzer möchte Docker-Compose nicht installieren
-             ;;
+             echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" ;; # Benutzer möchte Docker-Compose nicht installieren
            255)
-             echo -e "${RED}Abbruch.${RESET}" # Benutzer hat abbruch gewählt
-             ;;
+             echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
     1)
       echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" #Benutzer möchte Docker nicht installieren
       ;;
     255)
-      echo -e "${RED}Abbruch.${RESET}" # Benutzer hat abbruch gewählt
-      ;;
+      echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
 
-# Abfrage ob eine IP-Adres Konfigraution stattfinden soll
+# Abfrage ob eine IP-Adress Konfigraution stattfinden soll
 dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
 response_ipadress=$?
 case $response_ipadress
