@@ -32,26 +32,30 @@ show_help() {
 check_netplan_installed() {
   if (dpkg -l | grep -q "netplan.io"); then
     netplan_installed=true
+    pause
   else
     netplan_installed=false
+    pause
   fi
 }
 
 check_docker_installed() {
   if dpkg -l | grep -q "docker-ce"; then
     docker_installed=true
-    echo $docker_installed
+    pause
   else
     docker_installed=false
-    echo $docker_installed
+    pause
   fi
 }
 
 check_docker_compose_installed() {
   if dpkg -l | grep -q "docker-compose-plugin"; then
     docker_compose_installed=true
+    pause
   else
     docker_compose_installed=false
+    pause
   fi
 }
 
@@ -147,7 +151,7 @@ else
       fi
       ;;
     1)
-      echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" ;; #Benutzer möchte Docker nicht installieren
+      echo -e "${GREEN}Docker wird nicht installiert.${RESET}" ;; #Benutzer möchte Docker nicht installieren
     255)
       echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
   esac
