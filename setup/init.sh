@@ -81,7 +81,15 @@ if [ "$1" = "?" ] || [ "$1" = "help" ]; then
   show_help
 fi
 
-sudo echo "Um dieses Skript auszuführen, sind Root Berechtigungen nötig."
+check_root() {
+  if [[ "$(id -u)" -ne 0 || $(ps -o comm= -p $PPID) == "sudo" ]]; then
+    clear
+    msg_error "Bitte führe diese Skript als Root aus"
+    echo -e "\nAbbruch..."
+    sleep 2
+    exit
+  fi
+}
 
 echo -e "Grundinstallation eines Pi's"
 # Führt ein Update der Paketquellen durch
