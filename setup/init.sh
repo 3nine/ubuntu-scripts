@@ -65,7 +65,7 @@ install_docker_compose() {
   echo -e "${BLUE}Docker-Compose wurde installiert.${RESET}"
 }
 
-install_netplan() [
+install_netplan() {
   echo -e "${BLUE}Installiere Netplan.io"
   sudo apt install netplan.io > /dev/null  2>&1
   echo -e "${BLUE}Netplan.io wurde installiert.${RESET}"
