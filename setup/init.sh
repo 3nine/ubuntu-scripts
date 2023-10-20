@@ -88,13 +88,6 @@ autoremove() {
   fi
 }
 
-# --------> Start <--------
-
-# Prüfe ob Arg1 "?" oder "help" ist
-if [ "$1" = "?" ] || [ "$1" = "help" ]; then
-  show_help
-fi
-
 check_root() {
   if [[ "$(id -u)" -ne 0 || $(ps -o comm= -p $PPID) == "sudo" ]]; then
     clear
@@ -104,6 +97,15 @@ check_root() {
     exit
   fi
 }
+
+# --------> Start <--------
+
+# Prüfe ob Arg1 "?" oder "help" ist
+if [ "$1" = "?" ] || [ "$1" = "help" ]; then
+  show_help
+fi
+
+check_root
 
 echo -e "Grundinstallation eines Pi's"
 # Führt ein Update der Paketquellen durch
@@ -130,7 +132,8 @@ else
   case $response_docker in
     0)
       clear
-      install_docker ;; # Benutzer möchte Docker installieren
+      install_docker
+      ;; # Benutzer möchte Docker installieren
 
       # Teste ob Docker-Compose mit installiert wurde
       check_docker_compose_installed
@@ -143,15 +146,20 @@ else
          case $response_docker_compose
            0)
              clear
-             install_docker_compose ;; # Docker Compose wurde nicht installiert aber der Benutzer möchte es installieren
+             install_docker_compose
+             ;; # Docker Compose wurde nicht installiert aber der Benutzer möchte es installieren
            1)
              echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" # Benutzer möchte Docker-Compose nicht installieren
+             ;;
            255)
              echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
+             ;;
     1)
       echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" #Benutzer möchte Docker nicht installieren
+      ;;
     255)
       echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
+      ;;
 
 # Abfrage ob eine IP-Adres Konfigraution stattfinden soll
 dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
