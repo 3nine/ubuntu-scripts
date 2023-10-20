@@ -131,7 +131,7 @@ else
         # Abfrage Docker-Compose Installation
          dialog --title "Docker-Compose Installation" --yesno "Möchten Sie Docker-Compose  installieren?" 0 0
          response_docker_compose=$?
-         case $response_docker_compose
+         case $response_docker_compose in
            0)
              clear
              install_docker_compose
