@@ -10,6 +10,8 @@ Sobald dein Raspberry Pi den ersten Start des Images getan hat, kannst du diese 
 $ sudo git clone https://github.com/3nine/pi.git
 ```
 
+Danach einfach das ```init.sh``` Skript ausführen
+
 # Ziele
 
 - [ ] Füge eine Art GUI hinzu.
