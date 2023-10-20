@@ -141,10 +141,10 @@ else
          esac
       fi
     1)
-      echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" #Benutzer möchte Docker nicht installieren
-      ;;
+      echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" ;; #Benutzer möchte Docker nicht installieren
     255)
       echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
+  esac
 
 # Abfrage ob eine IP-Adress Konfigraution stattfinden soll
 dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
