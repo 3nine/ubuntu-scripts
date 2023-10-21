@@ -37,6 +37,13 @@ check_netplan_installed() {
   fi
 }
 
+check_ufw_installed() {
+  if (dpkg -l | grep "ufw"); then
+    ufw_installed=true
+  else
+    ufw_installed=false
+}
+
 check_docker_installed() {
   if dpkg -l | grep -q "docker-ce"; then
     docker_installed=true
@@ -52,6 +59,11 @@ check_docker_compose_installed() {
     docker_compose_installed=false
   fi
 }
+
+install_ufw() {
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Staring installation of UFW." >> /tmp/pi/logs/log.txt
+  sudo apt install ufw > /dev/null 2>&1
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - installation of UFW Finished." >> /tmp/pi/logs/log.txt
 
 install_docker() {
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker." >> /tmp/pi/logs/log.txt
@@ -173,7 +185,44 @@ else
   esac
 fi
 
-# Abfrage ob eine IP-Adress Konfigraution stattfinden soll
+# Abfrage ob die Firewall installiert und aktiviert werden soll
+dialog --title "Firewall" --yesno "Möchten Sie die Firewall aktivieren?" 0 0
+response_firewall=$?
+case $response_firewall in
+  0)
+    check_ufw_installed
+    if $ufw_installed; then
+      clear
+      dialog --title "Firewall installation" --msgbox "Firewall konnte nicht installiert werden, da sie schon installiert ist" 0 0
+      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - UFW is already installed,so this step is skipped." >> /tmp/pi/logs/log.txt
+    else
+      clear
+      install_ufw
+    fi
+    # Abfrage ob der Zugang per SSH erlaubt sein soll
+    dialog --title "Firewall Konfiguration" --yesno "Soll der Zugang per SSH erlaubt sein?" 0 0
+    response_ssh=$?
+    case $response_ssh in
+      0)
+        sudo ufw allow ssh
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - SSH is now allowed in UFW" >> /tmp/pi/logs/log.txt
+        dialog --title "Firewall Konfiguration" --msgbox "SSH Zugang ist jetzt erlaubt."
+        sudo ufw enable
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - UFW is now enabled" >> /tmp/pi/logs/log.txt
+        dialog --title "Firewall Konfiguration" --msgbox "Firewall ist jetzt aktiviert"
+        
+      1)
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - SSH is not allowed in UFW" >> /tmp/pi/logs/log.txt
+        dialog --title "Firewall Konfiguration" --msgbox "SSH Zugang ist nicht erlaubt."
+      255)
+        echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort" >> /tmp/pi/logs/log.txt
+  1)
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - UFW is now disabled" >> /tmp/pi/logs/log.txt
+    dialog --title "Firewall Konfiguration" --msgbox "Firewall soll nicht aktiviert werden."
+  255)
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort" >> /tmp/pi/logs/log.txt
+
+# Abfrage ob eine IP-Adress Konfiguration stattfinden soll
 dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
 response_ipadress=$?
 case $response_ipadress in
