@@ -107,6 +107,7 @@ if [ "$1" = "?" ] || [ "$1" = "help" ]; then
 fi
 
 clear
+sudo mkdir -p /tmp/pi/logs
 sudo touch /tmp/pi/logs/log.txt
 
 echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting Init.sh." >> /tmp/pi/logs/log.txt
