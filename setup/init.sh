@@ -211,17 +211,22 @@ case $response_firewall in
         sudo ufw enable
         echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - UFW is now enabled" >> /tmp/pi/logs/log.txt
         dialog --title "Firewall Konfiguration" --msgbox "Firewall ist jetzt aktiviert"
-        
+        ;;
       1)
         echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - SSH is not allowed in UFW" >> /tmp/pi/logs/log.txt
         dialog --title "Firewall Konfiguration" --msgbox "SSH Zugang ist nicht erlaubt."
+        ;;
       255)
         echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort" >> /tmp/pi/logs/log.txt
+        ;;
+    ;;
   1)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - UFW is now disabled" >> /tmp/pi/logs/log.txt
     dialog --title "Firewall Konfiguration" --msgbox "Firewall soll nicht aktiviert werden."
+    ;;
   255)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort" >> /tmp/pi/logs/log.txt
+    ;;
 
 # Abfrage ob eine IP-Adress Konfiguration stattfinden soll
 dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
