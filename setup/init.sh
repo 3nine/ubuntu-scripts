@@ -104,6 +104,8 @@ if [ "$1" = "?" ] || [ "$1" = "help" ]; then
   show_help
 fi
 
+clear
+
 echo -e "Grundinstallation eines Pi's"
 # Führt ein Update der Paketquellen durch
 echo "Aktualisiere Paketquellen"
