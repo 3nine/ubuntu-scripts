@@ -171,9 +171,9 @@ case $response_ipadress in
       install_netplan
     fi
     # Sammle Informationen dazu welche IP verwendet werden soll
-    ipadress=dialog --title "IP-Adresse" --inputbox "Legen Sie eine IP-Adresse fest. (Format: X.X.X.X)" 0 0
-    subnet_mask=dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0
-    gateway=dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0
+    ipadress=$(dialog --title "IP-Adresse" --inputbox "Legen Sie eine IP-Adresse fest. (Format: X.X.X.X)" 0 0)
+    subnet_mask=$(dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0)
+    gateway=$(dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0)
 
     # Interface festlegen
     interface="eth0"
@@ -185,7 +185,8 @@ network:
   version: 2
   ethernets:
     $interface:
-      addresses: [$ipaddress/$subnet_mask]
+      addresses:
+        - $ipadress/$subnet_mask
       gateway4: $gateway
 EOL
 
