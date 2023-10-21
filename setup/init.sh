@@ -242,7 +242,7 @@ case $response_autoupdate in
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are activated." >> /tmp/pi/logs/log.txt
     echo -e "${YELLOW}Automatische Uodates werden aktiviert.${RESET}"
     sudo mkdir -p /opt/update/
-    sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/setup/auto_update.sh
+    sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/main/setup/auto_update.sh
     sudo chmod +x /opt/update/auto_update.sh
     (crontab -l ; echo "0 0 * * 6 /opt/update/auto_update.sh") | crontab -
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are enabled." >> /tmp/pi/logs/log.txt
