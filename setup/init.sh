@@ -195,6 +195,7 @@ EOL
 
     # Konfiguration anwenden
     sudo netplan apply
+    clear
 
     if [ $? -eq 0 ]; then
       echo -e "${GREEN}Die Konfiguration wurde erfolgreich übernommen.${RESET}"
