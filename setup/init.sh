@@ -219,6 +219,7 @@ case $response_firewall in
       255)
         echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort" >> /tmp/pi/logs/log.txt
         ;;
+    esac
     ;;
   1)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - UFW is now disabled" >> /tmp/pi/logs/log.txt
@@ -227,6 +228,7 @@ case $response_firewall in
   255)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort" >> /tmp/pi/logs/log.txt
     ;;
+esac  
 
 # Abfrage ob eine IP-Adress Konfiguration stattfinden soll
 dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
