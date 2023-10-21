@@ -120,7 +120,7 @@ echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Update completed." >> /tmp/pi
 echo -e "${GREEN}Aktualisierung abgeschlossen${RESET}"
 
 # Führt ein Upgrade der Paketquellen durch
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Upgrading installed package sources." >> /tmp/pi/logs/log.txt
+echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Upgrading installed package sources." >> /tmp/pi/logs/log.txt
 echo "Upgrade der installierten Paketquellen"
 sudo apt update > /dev/null 2>&1
 echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Upgrading completed." >> /tmp/pi/logs/log.txt
