@@ -1,6 +1,6 @@
-# Raspberry Pi
+# Ubuntu
 
-Ein selbst erstelltes Skript zum konfigurieren von Raspberry Pi's
+Ein selbst erstelltes Skript zum konfigurieren von Ubuntu Systemen
 
 # Usage
 
@@ -12,7 +12,7 @@ $ sudo curl -o init.sh https://raw.githubusercontent:com/3nine/pi/main/setup/ini
 
 Danach einfach das ```init.sh``` Skript ausführen
 
-# Ziele
+# Targets
 
 - [x] Füge eine Art GUI hinzu.
 - [x] Erstelle die möglichkeit eine IP-Adress Konfiguration festzulegen.
