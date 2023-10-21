@@ -54,27 +54,27 @@ check_docker_compose_installed() {
 }
 
 install_docker() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker."
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker." >> /tmp/pi/logs/log.txt
   echo -e "${BLUE}Installiere Docker...${RESET}"
   sudo curl -sSL https://get.docker.com/ | CHANNEL=stable sh > /dev/null 2>&1
   echo -e "${BLUE}Docker wurde installiert.${RESET}"
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker Finished."
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker Finished." >> /tmp/pi/logs/log.txt
 }
 
 install_docker_compose() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker-Compose."
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker-Compose." >> /tmp/pi/logs/log.txt
   echo -e "${BLUE}Installiere Docker-Compose...${RESET}"
   sudo apt install docker-compose-plugin > /dev/null  2>&1
   echo -e "${BLUE}Docker-Compose wurde installiert.${RESET}"
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker-Compose Finished."
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker-Compose Finished." >> /tmp/pi/logs/log.txt
 }
 
 install_netplan() {
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Netplan."
+echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Netplan." >> /tmp/pi/logs/log.txt
   echo -e "${BLUE}Installiere Netplan.io${RESET}"
   sudo apt install netplan.io -y > /dev/null 2>&1
   echo -e "${BLUE}Netplan.io wurde installiert.${RESET}"
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Netplan Finished."
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Netplan Finished." >> /tmp/pi/logs/log.txt
 }
 
 pause() {
@@ -82,19 +82,19 @@ pause() {
 }
 
 autoremove() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Checking if packages are available for removal."
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Checking if packages are available for removal." >> /tmp/pi/logs/log.txt
   echo -e "${BLUE}Überprüfe, ob Pakete zum Entfernen verfügbar sind.${RESET}"
   autoremove_output=$(sudo apt-get autoremove -s > /dev/null 2>&1)
 
   if [[ "$autoremove_output" == *"Die folgenden Pakete werden entfernt"* ]]; then
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The following packages are being removed."
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Cleanup is performed to remove unused packages."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The following packages are being removed." >> /tmp/pi/logs/log.txt
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Cleanup is performed to remove unused packages." >> /tmp/pi/logs/log.txt
     echo -e "${BLUE}Bereinigung wird durchgeführt, um ungenutzte Pakete zu entfernen.${RESET}"
     sudo apt-get autoremove -y > /dev/null 2>&1
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Cleanup completed."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Cleanup completed." >> /tmp/pi/logs/log.txt
     echo -e "${BLUE}Bereinigung abgeschlossen.${RESET}"
   else
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - No Packages found for removal."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - No Packages found for removal." >> /tmp/pi/logs/log.txt
     echo -e "${YELLOW}Keine Pakete zum Entfernen gefunden.${RESET}"
   fi
 }
@@ -109,20 +109,20 @@ fi
 clear
 sudo touch /tmp/pi/logs/log.txt
 
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting Init.sh."
+echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting Init.sh." >> /tmp/pi/logs/log.txt
 echo -e "Grundinstallation eines Pi's"
 # Führt ein Update der Paketquellen durch
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Updating package sources."
+echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Updating package sources." >> /tmp/pi/logs/log.txt
 echo "Aktualisiere Paketquellen"
 sudo apt update > /dev/null 2>&1
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Update completed."
+echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Update completed." >> /tmp/pi/logs/log.txt
 echo -e "${GREEN}Aktualisierung abgeschlossen${RESET}"
 
 # Führt ein Upgrade der Paketquellen durch
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Upgrading installed package sources."
+echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Upgrading installed package sources." >> /tmp/pi/logs/log.txt
 echo "Upgrade der installierten Paketquellen"
 sudo apt update > /dev/null 2>&1
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Upgrading completed."
+echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Upgrading completed." >> /tmp/pi/logs/log.txt
 echo -e "${GREEN}Upgrade abgeschlossen${RESET}"
 
 # Aufruf function autoremove
@@ -130,7 +130,7 @@ autoremove
 
 check_docker_installed
 if $docker_installed; then
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker is already installed, so this step is skipped"
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker is already installed, so this step is skipped" >> /tmp/pi/logs/log.txt
   echo -e "${YELLOW}Docker ist bereits installiert, daher wird dieser Schritt übersprungen!${RESET}"
 else
   # Abfrage Docker Installation
@@ -155,19 +155,19 @@ else
              clear
              install_docker_compose ;; # Docker Compose wurde nicht installiert aber der Benutzer möchte es installieren
            1)
-             echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker was not installed."
+             echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker was not installed." >> /tmp/pi/logs/log.txt
              echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" ;; # Benutzer möchte Docker-Compose nicht installieren
            255)
-             echo -e "$(date '+%Y-%m-%d %H:%M:%S') - WARNING - User chose to abort."
+             echo -e "$(date '+%Y-%m-%d %H:%M:%S') - WARNING - User chose to abort." >> /tmp/pi/logs/log.txt
              echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
          esac
       fi
       ;;
     1)
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker will not be installed."
+      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker will not be installed." >> /tmp/pi/logs/log.txt
       echo -e "${GREEN}Docker wird nicht installiert.${RESET}" ;; #Benutzer möchte Docker nicht installieren
     255)
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort."
+      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
       echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
   esac
 fi
@@ -180,7 +180,7 @@ case $response_ipadress in
     check_netplan_installed
     if $netplan_installed; then
       clear
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Netplan is already installed,so this step is skipped."
+      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Netplan is already installed,so this step is skipped." >> /tmp/pi/logs/log.txt
       echo "Netplan ist bereits installiert, daher wird dieser Schritt übersprungen"
     else
       clear
@@ -217,18 +217,18 @@ EOL
     clear
 
     if [ $? -eq 0 ]; then
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The configuration was successfully applied."
+      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The configuration was successfully applied." >> /tmp/pi/logs/log.txt
       echo -e "${GREEN}Die Konfiguration wurde erfolgreich übernommen.${RESET}"
     else
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The configuration could not be applied."
+      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The configuration could not be applied." >> /tmp/pi/logs/log.txt
       echo -e "${RED}Die Konfiguration konnte nicht übernommen werden.${RESET}"
     fi
     ;;
   1)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The IP configuration was not changed."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The IP configuration was not changed." >> /tmp/pi/logs/log.txt
     echo -e "${GREEN}Die IP-Konfiguration wurde nicht verändert.${RESET}" ;;
   255)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
     echo -e "${YELLOW}Abbruch.${RESET}" ;;
 esac
 
@@ -238,20 +238,20 @@ dialog --title "Autoupdate aktivieren" --yesno "Möchten Sie Autoupdate aktivier
 response_autoupdate=$?
 case $response_autoupdate in
   0)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are activated."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are activated." >> /tmp/pi/logs/log.txt
     echo -e "${YELLOW}Automatische Uodates werden aktiviert.${RESET}"
     sudo mkdir -p /opt/update/
     sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/setup/auto_update.sh
     sudo chmod +x /opt/update/auto_update.sh
     (crontab -l ; echo "0 0 * * 6 /opt/update/auto_update.sh") | crontab -
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are enabled."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are enabled." >> /tmp/pi/logs/log.txt
     echo -e "${BLUE}Automatische Updates sind aktiviert.${RESET}"
     ;;
   1)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic updates are not activated."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic updates are not activated." >> /tmp/pi/logs/log.txt
     echo -e "${GREEN}Automatische Updates werden nicht aktiviert.${RESET}" ;;
   255)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
     echo -e "${YELLOW}Abbruch.${RESET}" ;;
 esac
 
@@ -261,15 +261,15 @@ dialog --title "Skript abgeschlossen" --yesno "Das Skript wurde abgeschlossen. M
 response_restart=$?
 case $response_restart in
   0)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Restarting Device."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Restarting Device." >> /tmp/pi/logs/log.txt
     echo -e "${GREEN}Der Raspberry Pi wird neu gestartet.${RESET}"
     clear
     sudo shutdown now ;; # Benutzer hat "Ja" ausgewählt, das System wird heruntergefahren
   1)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Device stays on."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Device stays on." >> /tmp/pi/logs/log.txt
     echo -e "${GREEN}Der Raspberry Pi bleibt eingeschaltet.${RESET}" ;; # Benutzer hat "Nein" ausgewählt, das Skript wird beendet
   255)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort."
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
     echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat Abbruch ausgewählt
 esac
 
