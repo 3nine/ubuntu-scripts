@@ -32,58 +32,49 @@ show_help() {
 check_netplan_installed() {
   if (dpkg -l | grep -q "netplan.io"); then
     netplan_installed=true
-    pause
   else
     netplan_installed=false
-    pause
   fi
 }
 
 check_docker_installed() {
   if dpkg -l | grep -q "docker-ce"; then
     docker_installed=true
-    pause
   else
     docker_installed=false
-    pause
   fi
 }
 
 check_docker_compose_installed() {
   if dpkg -l | grep -q "docker-compose-plugin"; then
     docker_compose_installed=true
-    pause
   else
     docker_compose_installed=false
-    pause
   fi
 }
 
 install_docker() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker"
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker."
   echo -e "${BLUE}Installiere Docker...${RESET}"
   sudo curl -sSL https://get.docker.com/ | CHANNEL=stable sh > /dev/null 2>&1
   echo -e "${BLUE}Docker wurde installiert.${RESET}"
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker Finished"
-  pause
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker Finished."
 }
 
 install_docker_compose() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker-Compose"
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker-Compose."
   echo -e "${BLUE}Installiere Docker-Compose...${RESET}"
   sudo apt install docker-compose-plugin > /dev/null  2>&1
   echo -e "${BLUE}Docker-Compose wurde installiert.${RESET}"
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker-Compose Finished"
-  pause
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker-Compose Finished."
 }
 
 install_netplan() {
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Netplan"
+echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Netplan."
   echo -e "${BLUE}Installiere Netplan.io${RESET}"
   sudo apt install netplan.io -y > /dev/null 2>&1
   echo -e "${BLUE}Netplan.io wurde installiert.${RESET}"
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Netplan Finished"
-  pause
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Netplan Finished."
 }
 
 pause() {
@@ -141,7 +132,6 @@ check_docker_installed
 if $docker_installed; then
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker is already installed, so this step is skipped"
   echo -e "${YELLOW}Docker ist bereits installiert, daher wird dieser Schritt übersprungen!${RESET}"
-  pause
 else
   # Abfrage Docker Installation
   dialog --title "Docker Installation" --yesno "Möchten Sie Docker installieren?" 0 0
