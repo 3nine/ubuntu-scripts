@@ -42,6 +42,7 @@ check_ufw_installed() {
     ufw_installed=true
   else
     ufw_installed=false
+  fi
 }
 
 check_docker_installed() {
