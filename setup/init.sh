@@ -166,6 +166,8 @@ case $response_ipadress in
     check_netplan_installed
     if $netplan_installed; then
       echo "Netplan ist bereits installiert, daher wird dieser Schritt übersprungen"
+      pause
+      clear
     else
       clear
       install_netplan
@@ -180,7 +182,7 @@ case $response_ipadress in
 
     # Erstellen der Konfiguration mit Netplan
     sudo touch /etc/netplan/01-netcfg.yaml
-    cat > /etc/netplan/01-netcfg.yaml <<EOL
+    sudo cat > /etc/netplan/01-netcfg.yaml <<EOL
 network:
   version: 2
   ethernets:
