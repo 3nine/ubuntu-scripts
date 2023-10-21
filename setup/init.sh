@@ -163,6 +163,8 @@ dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 
 response_ipadress=$?
 case $response_ipadress in
   0)
+    # Installiere NEtplan
+    install_netplan
     # Sammle Informationen dazu welche IP verwendet werden soll
     ipadress=dialog --title "IP-Adresse" --inputbox "Legen Sie eine IP-Adresse fest. (Format: X.X.X.X)"
     subnet_mask=dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)"
