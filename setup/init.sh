@@ -165,6 +165,7 @@ case $response_ipadress in
   0)
     check_netplan_installed
     if $netplan_installed; then
+      clear
       echo "Netplan ist bereits installiert, daher wird dieser Schritt übersprungen"
       pause
       clear
@@ -173,9 +174,9 @@ case $response_ipadress in
       install_netplan
     fi
     # Sammle Informationen dazu welche IP verwendet werden soll
-    ipadress=$(dialog --title "IP-Adresse" --inputbox "Legen Sie eine IP-Adresse fest. (Format: X.X.X.X)" 0 0)
-    subnet_mask=$(dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0)
-    gateway=$(dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0)
+    ipadress=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine IP-Adresse fest. (Format: X.X.X.X)" 0 0)
+    subnet_mask=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0)
+    gateway=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0)
 
     # Interface festlegen
     interface="eth0"
