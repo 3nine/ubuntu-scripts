@@ -207,6 +207,8 @@ case $response_firewall in
     case $response_ssh in
       0)
         sudo ufw allow ssh
+        y
+        clear
         echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - SSH is now allowed in UFW" >> /tmp/pi/logs/log.txt
         dialog --title "Firewall Konfiguration" --msgbox "SSH Zugang ist jetzt erlaubt."
         sudo ufw enable
