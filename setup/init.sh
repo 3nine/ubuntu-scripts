@@ -75,7 +75,7 @@ install_docker_compose() {
 
 install_netplan() {
   echo -e "${BLUE}Installiere Netplan.io${RESET}"
-  sudo apt install netplan.io > /dev/null  2>&1
+  sudo apt install netplan.io
   echo -e "${BLUE}Netplan.io wurde installiert.${RESET}"
   pause
 }
@@ -167,6 +167,7 @@ case $response_ipadress in
     if $netplan_installed; then
       echo "Netplan ist bereits installiert, daher wird dieser Schritt übersprungen"
     else
+      clear
       install_netplan
     fi
     # Sammle Informationen dazu welche IP verwendet werden soll
