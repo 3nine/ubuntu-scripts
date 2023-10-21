@@ -231,7 +231,7 @@ case $response_autoupdate in
   0)
     echo -e "${YELLOW}Autoupdate wird aktiviert.${RESET}"
     sudo mkdir -p /opt/update/
-    sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/auto_update.sh
+    sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/setup/auto_update.sh
     sudo chmod +x /opt/update/auto_update.sh
     (crontab -l ; echo "0 0 * * 6 /opt/update/auto_update.sh") | crontab -
     echo -e "${BLUE}Autoupdate aktiviert.${RESET}"
@@ -244,7 +244,6 @@ esac
 
 # Benutzerabfrage, ob das System heruntergefahren werden soll
 dialog --title "Skript abgeschlossen" --yesno "Das Skript wurde abgeschlossen. Möchten Sie das System neu starten?" 0 0
-
 # Überprüft die Antwort auf die Benutzerabfrage
 response_restart=$?
 case $response_restart in
