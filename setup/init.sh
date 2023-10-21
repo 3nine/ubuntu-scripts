@@ -329,6 +329,3 @@ case $response_restart in
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
     echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat Abbruch ausgewählt
 esac
-
-#Lösche das Konsolenfenster
-clear
