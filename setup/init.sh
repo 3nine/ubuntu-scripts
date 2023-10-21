@@ -64,30 +64,28 @@ check_docker_compose_installed() {
 install_ufw() {
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Staring installation of UFW." >> /tmp/pi/logs/log.txt
   sudo apt install ufw > /dev/null 2>&1
+  dialog --title "UFW Installation" --msgbox "UFW wurde installiert."
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - installation of UFW Finished." >> /tmp/pi/logs/log.txt
 }
 
 install_docker() {
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker." >> /tmp/pi/logs/log.txt
-  echo -e "${BLUE}Installiere Docker...${RESET}"
   sudo curl -sSL https://get.docker.com/ | CHANNEL=stable sh > /dev/null 2>&1
-  echo -e "${BLUE}Docker wurde installiert.${RESET}"
+  dialog --title "Docker Installation" --msgbox "Docker wurde installiert."
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker Finished." >> /tmp/pi/logs/log.txt
 }
 
 install_docker_compose() {
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker-Compose." >> /tmp/pi/logs/log.txt
-  echo -e "${BLUE}Installiere Docker-Compose...${RESET}"
   sudo apt install docker-compose-plugin > /dev/null  2>&1
-  echo -e "${BLUE}Docker-Compose wurde installiert.${RESET}"
+  dialog --title "Docker-Compose Installation" --msgbox "Docker-Compose wurde installiert."
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker-Compose Finished." >> /tmp/pi/logs/log.txt
 }
 
 install_netplan() {
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Netplan." >> /tmp/pi/logs/log.txt
-  echo -e "${BLUE}Installiere Netplan.io${RESET}"
+  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Netplan." >> /tmp/pi/logs/log.txt
   sudo apt install netplan.io -y > /dev/null 2>&1
-  echo -e "${BLUE}Netplan.io wurde installiert.${RESET}"
+  dialog --title "Netplan Installation" --msgbox "Netplan wurde installiert."
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Netplan Finished." >> /tmp/pi/logs/log.txt
 }
 
@@ -103,13 +101,12 @@ autoremove() {
   if [[ "$autoremove_output" == *"Die folgenden Pakete werden entfernt"* ]]; then
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The following packages are being removed." >> /tmp/pi/logs/log.txt
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Cleanup is performed to remove unused packages." >> /tmp/pi/logs/log.txt
-    echo -e "${BLUE}Bereinigung wird durchgeführt, um ungenutzte Pakete zu entfernen.${RESET}"
     sudo apt-get autoremove -y > /dev/null 2>&1
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Cleanup completed." >> /tmp/pi/logs/log.txt
-    echo -e "${BLUE}Bereinigung abgeschlossen.${RESET}"
+    dialog --title "Bereinigung" --msgbox "Bereinigung durchgeführt."
   else
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - No Packages found for removal." >> /tmp/pi/logs/log.txt
-    echo -e "${YELLOW}Keine Pakete zum Entfernen gefunden.${RESET}"
+    dialog --title "Bereinigung" --msgbox "Keine Pakete zur Bereinigung gefunden."
   fi
 }
 
@@ -128,17 +125,16 @@ echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting Init.sh." >> /tmp/pi/log
 echo -e "Grundinstallation eines Pi's"
 # Führt ein Update der Paketquellen durch
 echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Updating package sources." >> /tmp/pi/logs/log.txt
-echo "Aktualisiere Paketquellen"
+dialog --title "Updates" --msgbox "Pakete werden Aktualisiert."
 sudo apt update > /dev/null 2>&1
 echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Update completed." >> /tmp/pi/logs/log.txt
-echo -e "${GREEN}Aktualisierung abgeschlossen${RESET}"
+dialog --title "Updates" --msgbox "Pakete wurden aktualisiert."
 
 # Führt ein Upgrade der Paketquellen durch
 echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Upgrading installed package sources." >> /tmp/pi/logs/log.txt
-echo "Upgrade der installierten Paketquellen"
 sudo apt update > /dev/null 2>&1
 echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Upgrading completed." >> /tmp/pi/logs/log.txt
-echo -e "${GREEN}Upgrade abgeschlossen${RESET}"
+dialog --title "Upgrade" --msgbox "Upgrade abgeschlossen."
 
 # Aufruf function autoremove
 autoremove
@@ -146,7 +142,7 @@ autoremove
 check_docker_installed
 if $docker_installed; then
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker is already installed, so this step is skipped" >> /tmp/pi/logs/log.txt
-  echo -e "${YELLOW}Docker ist bereits installiert, daher wird dieser Schritt übersprungen!${RESET}"
+  dialog --title "Docker Installation" --msgbox "Docker ist bereits installiert, also wird dieser Schritt übersprungen."
 else
   # Abfrage Docker Installation
   dialog --title "Docker Installation" --yesno "Möchten Sie Docker installieren?" 0 0
@@ -171,7 +167,7 @@ else
              install_docker_compose ;; # Docker Compose wurde nicht installiert aber der Benutzer möchte es installieren
            1)
              echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker was not installed." >> /tmp/pi/logs/log.txt
-             echo -e "${GREEN}Docker wurde nicht installiert.${RESET}" ;; # Benutzer möchte Docker-Compose nicht installieren
+             dialog --title "Docker Installation" --msgbox "Docker wird nicht installiert."
            255)
              echo -e "$(date '+%Y-%m-%d %H:%M:%S') - WARNING - User chose to abort." >> /tmp/pi/logs/log.txt
              echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
@@ -180,7 +176,7 @@ else
       ;;
     1)
       echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker will not be installed." >> /tmp/pi/logs/log.txt
-      echo -e "${GREEN}Docker wird nicht installiert.${RESET}" ;; #Benutzer möchte Docker nicht installieren
+      dialog --title "Docker Installation" --msgbox "Docker wird nicht installiert."
     255)
       echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
       echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
@@ -242,7 +238,7 @@ case $response_ipadress in
     if $netplan_installed; then
       clear
       echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Netplan is already installed,so this step is skipped." >> /tmp/pi/logs/log.txt
-      echo "Netplan ist bereits installiert, daher wird dieser Schritt übersprungen"
+      dialog --title "Netplan Installation" --msgbox "Netplan ist bereits installiert, daher wird dieser Schritt übersprungen."
     else
       clear
       install_netplan
@@ -279,15 +275,15 @@ EOL
 
     if [ $? -eq 0 ]; then
       echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The configuration was successfully applied." >> /tmp/pi/logs/log.txt
-      echo -e "${GREEN}Die Konfiguration wurde erfolgreich übernommen.${RESET}"
+      dialog --title "IP-Adress Konfiguration" --msgbox "Die Konfiguration wurde erfolgreich übernommen."
     else
       echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The configuration could not be applied." >> /tmp/pi/logs/log.txt
-      echo -e "${RED}Die Konfiguration konnte nicht übernommen werden.${RESET}"
+      dialog --title "IP-Adress Konfiguration" --msgbox "Die Konfiguration konnte nicht übernommen werden."
     fi
     ;;
   1)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The IP configuration was not changed." >> /tmp/pi/logs/log.txt
-    echo -e "${GREEN}Die IP-Konfiguration wurde nicht verändert.${RESET}" ;;
+    dialog --title "IP-Adress Konfiguration" --msgbox "Die Konfiguration wurde nicht verändert." ;;
   255)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
     echo -e "${YELLOW}Abbruch.${RESET}" ;;
@@ -300,17 +296,17 @@ response_autoupdate=$?
 case $response_autoupdate in
   0)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are activated." >> /tmp/pi/logs/log.txt
-    echo -e "${YELLOW}Automatische Uodates werden aktiviert.${RESET}"
+    dialog --title "Automatische Updates" --msgbox "Automatische Updates werden aktiviert."
     sudo mkdir -p /opt/update/
     sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/main/setup/auto_update.sh
     sudo chmod +x /opt/update/auto_update.sh
     (crontab -l ; echo "0 0 * * 6 /opt/update/auto_update.sh") | crontab -
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are enabled." >> /tmp/pi/logs/log.txt
-    echo -e "${BLUE}Automatische Updates sind aktiviert.${RESET}"
+    dialog --title "Automatische Updates" --msgbox "Automatische Updates sind aktiviert."
     ;;
   1)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic updates are not activated." >> /tmp/pi/logs/log.txt
-    echo -e "${GREEN}Automatische Updates werden nicht aktiviert.${RESET}" ;;
+    dialog --title "Automatische Updates" --msgbox "Automatische Updates werden nicht aktiviert." ;;
   255)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
     echo -e "${YELLOW}Abbruch.${RESET}" ;;
@@ -323,12 +319,12 @@ response_restart=$?
 case $response_restart in
   0)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Restarting Device." >> /tmp/pi/logs/log.txt
-    echo -e "${GREEN}Der Raspberry Pi wird neu gestartet.${RESET}"
+    dialog --title "System neustart" --msgbox "Das System wird jetzt neu gestartet."
     clear
-    sudo shutdown now ;; # Benutzer hat "Ja" ausgewählt, das System wird heruntergefahren
+    sudo shutdown now ;; # Benutzer hat "Ja" ausgewählt, das System wird neu gestartet
   1)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Device stays on." >> /tmp/pi/logs/log.txt
-    echo -e "${GREEN}Der Raspberry Pi bleibt eingeschaltet.${RESET}" ;; # Benutzer hat "Nein" ausgewählt, das Skript wird beendet
+    dialog --title "System neustart" --msgbox "Das System wird nicht neu gestartet." ;; # Benutzer hat "Nein" ausgewählt, das Skript wird beendet
   255)
     echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
     echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat Abbruch ausgewählt
