@@ -5,9 +5,9 @@
 # License: MIT
 # https://github.com/3nine/pi/main/LICENSE.md
 
-# Setze die Variablen um das Format zu überprüfen
+# Format nachdem geprüft wird
 pattern="^[0-9]+\.[0-9]+\.[0-9]+$"
-# GitHub-Repository und Version
+# GitHub-Repository
 repository="netbox-community/netbox"
 
 # Setze die Farben für die Ausgabe
