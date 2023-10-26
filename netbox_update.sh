@@ -56,9 +56,9 @@ NEWVER=$(sudo dialog --title "Neue Version" --inputbox "Bitte gebe die Version a
 
 # Überprüfung des Formats für beide Versionen
 if check_version_format "$NEWVER" && check_version_format "$OLDVER"; then
-  echo "Beide Versionen haben das korrekte Format."
+  echo "${GREEN}Beide Versionen haben das korrekte Format.${RESET}"
 else
-  echo "Eine oder beide Versionen haben nicht das korrekte Format. Bitte geben Sie gültige Versionen im Format x.x.x ein."
+  echo "${RED}Eine oder beide Versionen haben nicht das korrekte Format. Bitte geben Sie gültige Versionen im Format x.x.x ein.${RESET}"
   exit 1
 fi
 
@@ -67,10 +67,10 @@ github_url="https://api.github.com/repos/$repository/releases/tags/v$NEWVER"
 response=$(curl -s "$github_url")
 if [[ "$response" == *"Not Found"* ]]; then
   clear
-  echo "Die Version $NEWVER wurde auf GitHub nicht gefunden."
+  echo "${RED}Die Version $NEWVER wurde auf GitHub nicht gefunden.${RESET}"
 else
   clear
-  echo "Die Version $NEWVER wurde auf GitHub gefunden."
+  echo "${GREEN}Die Version $NEWVER wurde auf GitHub gefunden.${RESET}"
   # Downloade gefundene Version von GitHub, entpacke sie und setze das Verzeichnis als neuen Symlink
   wget https://github.com/netbox-community/netbox/archive/v$NEWVER.tar.gz
   sudo tar -xzf v$NEWVER.tar.gz -C /opt
