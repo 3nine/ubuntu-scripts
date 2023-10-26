@@ -11,11 +11,3 @@ $ sudo curl -o init.sh https://raw.githubusercontent:com/3nine/pi/main/setup/ini
 ```
 
 Danach einfach das ```init.sh``` Skript ausführen
-
-# Targets
-
-- [x] Füge eine Art GUI hinzu.
-- [x] Erstelle die möglichkeit eine IP-Adress Konfiguration festzulegen.
-- [x] Erstelle die möglichkeit eine Firewall zu installieren und den SSH Zugang zu ermöglichen
-- [ ] Erstelle eine Auswahl an Services die mit der GUI installiert und konfiguriert werden können.
-- [ ] Erstelle eine Auswahl an Services die mit der GUI deinstalliert werden können sowie die Firewallregeln
