@@ -29,8 +29,8 @@ show_help() {
   echo -e "${GREEN}Dieses Skript fürt automatische Updates sowie Konfigurationen durch${RESET}"
   echo -e "${GREEN}Es aktualisiert die Paketquellen, führt ein Paketupgrade durch und bietet die Option, bestimmte Services zu installieren.${RESET}"
   echo -e "${CYAN}Verwendung:${RESET}"
-  echo -e "${CYAN}  ./netbox_update.sh <old version> <new version>              - Führt das Skript aus.${RESET}"
-  echo -e "${CYAN}  ./netbox_update.sh help or ?                                - Zeigt diese Hilfe an.${RESET}"
+  echo -e "${CYAN}  ./netbox_update.sh                  - Führt das Skript aus.${RESET}"
+  echo -e "${CYAN}  ./netbox_update.sh help or ?        - Zeigt diese Hilfe an.${RESET}"
   exit 0
 }
 
