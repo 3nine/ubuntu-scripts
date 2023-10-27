@@ -99,9 +99,10 @@ else
       ;;
     1)
       echo "Topologie View ist nicht installiert, daher werden in diesem Schritt keine Dateien kopiert"
+      ;;
     255)
       exit 1
-      ,,
+      ;;
   esac
   
   # Kopiere die gunicorn.py konfiguration
