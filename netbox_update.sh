@@ -67,10 +67,8 @@ fi
 github_url="https://api.github.com/repos/$repository/releases/tags/v$NEWVER"
 response=$(curl -s "$github_url")
 if [[ "$response" == *"Not Found"* ]]; then
-  clear
   echo "${RED}Die Version $NEWVER wurde auf GitHub nicht gefunden.${RESET}"
 else
-  clear
   echo "${GREEN}Die Version $NEWVER wurde auf GitHub gefunden.${RESET}"
   # Downloade gefundene Version von GitHub, entpacke sie und setze das Verzeichnis als neuen Symlink
   wget https://github.com/netbox-community/netbox/archive/v$NEWVER.tar.gz
