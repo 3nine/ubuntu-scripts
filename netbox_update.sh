@@ -91,12 +91,18 @@ else
   
   # Kopiere die NetBox Topologie View Images
   iamges="/opt/netbox-$OLDVER/netbox/static/netbox_topology_views/img"
-  response=$(cd "$iamges")
-  if [[ "$response" ==  *"No such file or diectory"* ]]; then
-    echo "Topologie View ist nicht installiert, daher werden in diesem Schritt keine Dateien Kopiert."
-  else
-    sudo cp -r /opt/netbox-$OLDVER/netbox/static/netbox_topology_views/img /opt/netbox/netbox/static/netbox_topology_views/
-  fi
+  dialog --title "Topologie View" --yesno "Ist Topologie View installiert?" 0 0
+  response=$?
+  case $response in
+    0)
+      sudo cp -r /opt/netbox-$OLDVER/netbox/static/netbox_topology_views/img /opt/netbox/netbox/static/netbox_topology_views/
+      ;;
+    1)
+      echo "Topologie View ist nicht installiert, daher werden in diesem Schritt keine Dateien kopiert"
+    255)
+      exit 1
+      ,,
+  esac
   
   # Kopiere die gunicorn.py konfiguration
   sudo cp /opt/netbox-$OLDVER/gunicorn.py /opt/netbox/
