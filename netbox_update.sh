@@ -92,11 +92,9 @@ else
   sudo cp /opt/netbox-$OLDVER/gunicorn.py /opt/netbox/
 
   # Führe das upgrade Skript aus
-  sudo ./upgrade.sh
+  sudo /opt/netbox/upgrade.sh
 
   # Starte die NetBox Services neu
   sudo systemctl restart netbox netbox-rq
 
 fi
-
-clear
