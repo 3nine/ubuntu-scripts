@@ -58,6 +58,7 @@ NEWVER=$(sudo dialog --title "Neue Version" --inputbox "Bitte gebe die Version a
 if check_version_format "$NEWVER" && check_version_format "$OLDVER"; then
   echo "${GREEN}Beide Versionen haben das korrekte Format.${RESET}"
 else
+  clear
   echo "${RED}Eine oder beide Versionen haben nicht das korrekte Format. Bitte geben Sie gültige Versionen im Format x.x.x ein.${RESET}"
   exit 1
 fi
