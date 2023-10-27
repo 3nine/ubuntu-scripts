@@ -88,7 +88,16 @@ else
   # Kopiere die Custom Skripts und Reports
   sudo cp -r /opt/netbox-$OLDVER/netbox/scripts /opt/netbox/netbox/
   sudo cp -r /opt/netbox-$OLDVER/netbox/reports /opt/netbox/netbox/
-
+  
+  # Kopiere die NetBox Topologie View Images
+  iamges="/opt/netbox-$OLDVER/netbox/static/netbox_topology_views/img"
+  response=$(cd "$iamges")
+  if [[ "$response" ==  *"No such file or diectory"* ]]; then
+    echo "Topologie View ist nicht installiert, daher werden in diesem Schritt keine Dateien Kopiert."
+  else
+    sudo cp -r /opt/netbox-$OLDVER/netbox/static/netbox_topology_views/img /opt/netbox/netbox/static/netbox_topology_views/
+  fi
+  
   # Kopiere die gunicorn.py konfiguration
   sudo cp /opt/netbox-$OLDVER/gunicorn.py /opt/netbox/
 
