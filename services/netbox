@@ -114,11 +114,33 @@ install_netbox(){
 }
 
 configure_gunicorn() {
-  echo -e "[ ${GRAY}INFO${RESET} ]"
+  echo -e "[ ${GRAY}INFO${RESET} ] Creating gunicorn configuration."
+  sudo cp /opt/netbox/contrib/gunicorn.py /opt/netbox/gunicorn.py > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] Configuration complete."
+  echo -e "[ ${GRAY}INFO${RESET} ] Setting up systemd."
+  sudo cp -v /opt/netbox/contrib/*.service /etc/systemd/system/
+  sudo systemctl daemon-reload
+  echo -e "[ ${GRAY}INFO${RESET} ] Restarting services."
+  sudo systemctl start netbox netbox-rq
+  sudo systemctl enable netbox netbox-rq
+  echo -e "[ ${GREEN}DONE${RESET} ] Setup complete."
 }
 
 install_httpserver() {
-
+  ###################################################################################################################### Apache oder nginx
+  echo -e "[ ${GRAY}INFO${RESET} ] Installing nginx."
+  sudo apt install -y nginx > /dev/null 2>&1
+echo -e "[ ${GREEN}DONE${RESET} ] Nginx is now installed."
+echo -e "[ ${GRAY}INFO${RESET} ] Copy configuration to /etc/nginx/sites-available/netbox."             ######################################################### doain ersetzen
+  sudo cp /opt/netbox/contrib/nginx.conf /etc/nginx/sites-available/netbox > /dev/null 2>&1
+echo -e "[ ${GRAY}INFO${RESET} ] Removing /etc/ngin/sites-enabled/default."
+echo -e "[ ${GREEN}INFO${RESET} ] Creating Symlink."
+  sudo rm /etc/nginx/sites-enabled/default
+  sudo ln -s /etc/nginx/sites-available/netbox /etc/nginx/sites-enabled/netbox
+echo -e "[ ${GRAY}INFO${RESET} ] Creating gunicorn configuration."
+echo -e "[ ${GRAY}INFO${RESET} ] Creating gunicorn configuration."
+  sudo systemctl restart nginx
+echo -e "[ ${GRAY}INFO${RESET} ] Creating gunicorn configuration."
 }
 
 configure() {
