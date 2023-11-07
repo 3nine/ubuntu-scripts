@@ -37,14 +37,74 @@ check_dialog_installed() {
   echo -e "[ ${YELLOW}INFO ] Checking if dialog package is installed."
   if dpkg -l | grep -q "dialog"; then
     dialog_installed=true
+    echo -e "[ ${YELLOW}INFO ] Dialog package is installed."
   else
     dialog_installed=false
+    echo -e "[ ${YELLOW}INFO ] Dialog package is not installed."
+    install_dialog
   fi
+}
+
+install_postgresql() {
+  echo -e "[ ${YELLOW}INFO${RESET} ] Searching for updates."
+  sudo apt update > /dev/null 2>&1
+  echo -e "[ ${YELLOW}INFO${RESET} ] PostgreSQL is being installed."
+  sudo apt install -y postgresql  > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] PostgreSQL is now installed."
+  echo -e "[ ${YELLOW}INFO${RESET} ] Creating Database."
+  sudo -u postgres psql  > /dev/null 2>&1
+
+  CREATE DATABASE netbox;
+  CREATE USER netbox WITH PASSWORD '$password';
+  ALTER DATABASE netbox OWNER TO netbox;
+  \connect netbox;
+  GRANT CREATE ON SCHEMA public TO netbox;
+  \q
+
+echo -e "[ ${GREEN}DONE${RESET} ] Database created."
+  
+####################################################################################################################### Password fehlt
+}
+
+install_redis() {
+  echo -e "[ ${YELLOW}INFO${RESET} ] Redis is being installed."
+  sudo apt install -y redis-server  > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] Redis is now installed."
+}
+
+install_netbox(){
+  echo -e "[ ${YELLOW}INFO${RESET} ] System Packages are being installed."
+  sudo apt install -y python3 python3-pip python3-venv python3-dev build-essential libxml2-dev libxslt1-dev libffi-dev libpq-dev libssl-dev zlib1g-dev > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] System Packages are now installed."
+  echo -e "[ ${GRAY}INFO${RESET} ] Downloading NetBox from GitHub."
+  sudo wget https://github.com/netbox-community/netbox/archive/refs/tags/vX.Y.Z.tar.gz  > /dev/null 2>&1  ##############Version fehlt
+  echo -e "[ ${GREEN}DONE${RESET} ] Download completed."
+  echo -e "[ ${GRAY}INFO${RESET} ] Extracting files to desired path."
+  sudo tar -xzf vX.Y.Z.tar.gz -C /opt  > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] Extracted files to desired path."
+  echo -e "[ ${GRAY}INFO${RESET} ] Creating Symlink."
+  sudo ln -s /opt/netbox-X.Y.Z/ /opt/netbox  > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] Created Symlink."
+
+  
+}
+
+install_gunicorn(){
 
 }
 
-check_netbox_installed() {
-  
+install_httpserver() {
+
+}
+
+configure() {
+
+}
+
+install_dialog() {
+  echo -e "[ ${YELLOW}INFO ] Dialog package is being installed."
+  sudo apt install dialog > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] Dialog package is now installed."
 }
 
 # --------> Start <--------
@@ -54,4 +114,16 @@ if [ "$1" = "?" ] || [ "$1" = "help" ]; then
   show_help
 fi
 
+echo -e "[ ${GRAY}INFO${RESET} ] Please enable sudo cache by typing your sudo password."
+sudo echo -e "[ ${GREEN}DONE${RESET} ] Sudo cache is now enabled."
+
+check_dialog_installed
+
 echo -e "[ ${GREY}INFO${RESET} ] Loading..."
+
+dialog --title "NetBox Installation" --yesno "Are you sure you want to install NetBox?" 0 0
+response=$?
+case $response in
+  0)
+    
+    ;;
