@@ -87,14 +87,34 @@ install_netbox(){
   echo -e "[ ${GREEN}DONE${RESET} ] Created Symlink."
 
   echo -e "[ ${GRAY}INFO${RESET} ] Creating netbox user."
-  sudo adduser --system --group netbox
-  sudo chown --recursive netbox /opt/netbox/netbox/media/
-  sudo chown --recursive netbox /opt/netbox/netbox/reports/
-  sudo chown --recursive netbox /opt/netbox/netbox/scripts/
+  sudo adduser --system --group netbox  > /dev/null 2>&1
+  sudo chown --recursive netbox /opt/netbox/netbox/media/  > /dev/null 2>&1
+  sudo chown --recursive netbox /opt/netbox/netbox/reports/  > /dev/null 2>&1
+  sudo chown --recursive netbox /opt/netbox/netbox/scripts/  > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] User was created."
+
+  echo -e "[ ${GRAY}INFO${RESET} ] Creating configuration."
+  cd /opt/netbox/netbox/netbox/
+  sudo cp configuration_example.py configuration.py > /dev/null 2>&1
+
+  echo -e "[ ${GRAY}INFO${RESET} ] Running the update script"
+  sudo /opt/netbox/upgrade.sh > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] Finished the update script. Restarting services."
+  sudo systemctl restart netbox netbox-rq > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] Services restarted."
+
+  echo -e "[ ${GRAY}INFO${RESET} ] Creating Super User."
+  source /opt/netbox/venv/bin/activate
+  cd /opt/netbox/netbox
+  python3 manage.py createsuperuser
+  echo -e "[ ${GREEN}DONE${RESET} ]Super User created."
+  echo -e "[ ${GRAY}INFO${RESET} ] Scheduling the housekeeping task."
+  sudo ln -s /opt/netbox/contrib/netbox-housekeeping.sh /etc/cron.daily/netbox-housekeeping > /dev/null 2>&1
+  echo -e "[ ${GREEN}DONE${RESET} ] Housekeeping task is now active."
 }
 
-install_gunicorn(){
-
+configure_gunicorn() {
+  echo -e "[ ${GRAY}INFO${RESET} ]"
 }
 
 install_httpserver() {
