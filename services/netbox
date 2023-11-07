@@ -34,7 +34,13 @@ pause() {
 }
 
 check_dialog_installed() {
-  echo -e "[ ${YELLOW}INFO ]"
+  echo -e "[ ${YELLOW}INFO ] Checking if dialog package is installed."
+  if dpkg -l | grep -q "dialog"; then
+    dialog_installed=true
+  else
+    dialog_installed=false
+  fi
+
 }
 
 check_netbox_installed() {
@@ -47,3 +53,5 @@ check_netbox_installed() {
 if [ "$1" = "?" ] || [ "$1" = "help" ]; then
   show_help
 fi
+
+echo -e "[ ${GREY}INFO${RESET} ] Loading..."
