@@ -86,7 +86,11 @@ install_netbox(){
   sudo ln -s /opt/netbox-X.Y.Z/ /opt/netbox  > /dev/null 2>&1
   echo -e "[ ${GREEN}DONE${RESET} ] Created Symlink."
 
-  
+  echo -e "[ ${GRAY}INFO${RESET} ] Creating netbox user."
+  sudo adduser --system --group netbox
+  sudo chown --recursive netbox /opt/netbox/netbox/media/
+  sudo chown --recursive netbox /opt/netbox/netbox/reports/
+  sudo chown --recursive netbox /opt/netbox/netbox/scripts/
 }
 
 install_gunicorn(){
@@ -102,7 +106,7 @@ configure() {
 }
 
 install_dialog() {
-  echo -e "[ ${YELLOW}INFO ] Dialog package is being installed."
+  echo -e "[ ${YELLOW}INFO${RESET} ] Dialog package is being installed."
   sudo apt install dialog > /dev/null 2>&1
   echo -e "[ ${GREEN}DONE${RESET} ] Dialog package is now installed."
 }
