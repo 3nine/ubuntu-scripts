@@ -82,7 +82,7 @@ else
   # Erstelle einen Prüfpunkt mit dem Namen "Vor Update vX.X.X"
   HYPERV_HOST="Hyper-V06"
   VM_NAME="netbox_test"
-  SNAPSHOTNAME="Vor Update v" $OLDVERPSHOT
+  SNAPSHOTNAME=date +%s "Vor Update v" $OLDVERPSHOT
   BACKUP_USER=""
 
   # Pwershell Befehl zum erstellen des Prüfpunkts
