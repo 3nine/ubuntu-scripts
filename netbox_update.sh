@@ -83,12 +83,13 @@ else
   HYPERV_HOST="Hyper-V06"
   VM_NAME="netbox_test"
   SNAPSHOTNAME="Vor Update v" $OLDVERPSHOT
+  BACKUP_USER=""
 
   # Pwershell Befehl zum erstellen des Prüfpunkts
   PS_COMMAND="Checkpoint-VM -Name $VM_NAME" -SnapshotName $SNAPSHOTNAME
 
   # Powershell-Befehl ausführen
-  
+  ssh $BACKUP_USER@$HYPERV_HOST powershell.exe -Command "$PS_COMMAND"
 
 
 
