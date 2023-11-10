@@ -91,11 +91,6 @@ else
 
   # Powershell-Befehl ausführen
   ssh $BACKUP_USER@$HYPERV_HOST powershell.exe -Command "$PS_COMMAND"
-
-
-
-
-
   
   echo "${GREEN}Die Version $NEWVER wurde auf GitHub gefunden.${RESET}"
   # Downloade gefundene Version von GitHub, entpacke sie und setze das Verzeichnis als neuen Symlink
