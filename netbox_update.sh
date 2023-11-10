@@ -80,6 +80,7 @@ if [[ "$response" == *"Not Found"* ]]; then
 else
   clear
   # Erstelle einen Prüfpunkt mit dem Namen "Vor Update vX.X.X"
+  check_powershell_installed
   HYPERV_HOST="Hyper-V06"
   VM_NAME="netbox_test"
   SNAPSHOTNAME=date +%s "Vor Update v" $OLDVERPSHOT
