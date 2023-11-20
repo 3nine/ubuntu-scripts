@@ -53,58 +53,11 @@ msg_error() {
   echo -e "${RESET} ${CROSS} ${RED}${msg}${RESET}"
 }
 
-check_netplan_installed() {
-  if (dpkg -l | grep -q "netplan.io"); then
-    netplan_installed=true
-  else
-    netplan_installed=false
-  fi
-}
-
-check_ufw_installed() {
-  if (dpkg -l | grep "ufw"); then
-    ufw_installed=true
-  else
-    ufw_installed=false
-  fi
-}
-
-install_ufw() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Staring installation of UFW." >> /tmp/pi/logs/log.txt
-  sudo apt install ufw > /dev/null 2>&1
-  dialog --title "UFW Installation" --msgbox "UFW wurde installiert."
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - installation of UFW Finished." >> /tmp/pi/logs/log.txt
-}
-
-install_netplan() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Netplan." >> /tmp/pi/logs/log.txt
-  sudo apt install netplan.io -y > /dev/null 2>&1
-  dialog --title "Netplan Installation" --msgbox "Netplan wurde installiert."
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Netplan Finished." >> /tmp/pi/logs/log.txt
-}
-
 pause() {
   sleep 2 # 2 Sekunden Pause
 }
 
-autoremove() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Checking if packages are available for removal." >> /tmp/pi/logs/log.txt
-  echo -e "${BLUE}Überprüfe, ob Pakete zum Entfernen verfügbar sind.${RESET}"
-  autoremove_output=$(sudo apt-get autoremove -s > /dev/null 2>&1)
-
-  if [[ "$autoremove_output" == *"Die folgenden Pakete werden entfernt"* ]]; then
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The following packages are being removed." >> /tmp/pi/logs/log.txt
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Cleanup is performed to remove unused packages." >> /tmp/pi/logs/log.txt
-    sudo apt-get autoremove -y > /dev/null 2>&1
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Cleanup completed." >> /tmp/pi/logs/log.txt
-    dialog --title "Bereinigung" --msgbox "Bereinigung durchgeführt."
-  else
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - No Packages found for removal." >> /tmp/pi/logs/log.txt
-    dialog --title "Bereinigung" --msgbox "Keine Pakete zur Bereinigung gefunden."
-  fi
-}
-
-# --------> Start <--------
+# ----------------------------------------------------------------> Start <----------------------------------------------------------------
 
 # Prüfe ob Arg1 "?" oder "help" ist
 if [ "$1" = "?" ] || [ "$1" = "help" ]; then
@@ -113,143 +66,17 @@ fi
 
 show_header
 
-clear
-sudo mkdir -p /tmp/pi/logs
-sudo touch /tmp/pi/logs/log.txt
-
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting Init.sh." >> /tmp/pi/logs/log.txt
-echo -e "Grundinstallation eines Pi's"
-# Führt ein Update der Paketquellen durch
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Updating package sources." >> /tmp/pi/logs/log.txt
-dialog --title "Updates" --msgbox "Pakete werden Aktualisiert."
-sudo apt update > /dev/null 2>&1
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Update completed." >> /tmp/pi/logs/log.txt
-dialog --title "Updates" --msgbox "Pakete wurden aktualisiert."
-
-# Führt ein Upgrade der Paketquellen durch
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Upgrading installed package sources." >> /tmp/pi/logs/log.txt
-sudo apt update > /dev/null 2>&1
-echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - Upgrading completed." >> /tmp/pi/logs/log.txt
-dialog --title "Upgrade" --msgbox "Upgrade abgeschlossen."
-
-# Aufruf function autoremove
-autoremove
-
-check_docker_installed
-if $docker_installed; then
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker is already installed, so this step is skipped" >> /tmp/pi/logs/log.txt
-  dialog --title "Docker Installation" --msgbox "Docker ist bereits installiert, also wird dieser Schritt übersprungen."
-else
-  # Abfrage Docker Installation
-  dialog --title "Docker Installation" --yesno "Möchten Sie Docker installieren?" 0 0
-  response_docker=$?
-  case $response_docker in
-    0)
-      clear
-      # Benutzer möchte Docker installieren
-      install_docker
-
-      # Teste ob Docker-Compose mit installiert wurde
-      check_docker_compose_installed
-      if $docker_compose_installed; then
-        clear
-      else
-        # Abfrage Docker-Compose Installation
-         dialog --title "Docker-Compose Installation" --yesno "Möchten Sie Docker-Compose  installieren?" 0 0
-         response_docker_compose=$?
-         case $response_docker_compose in
-           0)
-             clear
-             install_docker_compose ;; # Docker Compose wurde nicht installiert aber der Benutzer möchte es installieren
-           1)
-             echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker was not installed." >> /tmp/pi/logs/log.txt
-             dialog --title "Docker Installation" --msgbox "Docker wird nicht installiert."
-           255)
-             echo -e "$(date '+%Y-%m-%d %H:%M:%S') - WARNING - User chose to abort." >> /tmp/pi/logs/log.txt
-             echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
-         esac
-      fi
-      ;;
-    1)
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Docker will not be installed." >> /tmp/pi/logs/log.txt
-      dialog --title "Docker Installation" --msgbox "Docker wird nicht installiert."
-    255)
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
-      echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat abbruch gewählt
-  esac
-fi
-
-# Abfrage ob die Firewall installiert und aktiviert werden soll
-dialog --title "Firewall" --yesno "Möchten Sie die Firewall aktivieren?" 0 0
-response_firewall=$?
-case $response_firewall in
-  0)
-    check_ufw_installed
-    if $ufw_installed; then
-      clear
-      dialog --title "Firewall installation" --msgbox "Firewall konnte nicht installiert werden, da sie schon installiert ist" 0 0
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - UFW is already installed,so this step is skipped." >> /tmp/pi/logs/log.txt
-    else
-      clear
-      install_ufw
-    fi
-    # Abfrage ob der Zugang per SSH erlaubt sein soll
-    dialog --title "Firewall Konfiguration" --yesno "Soll der Zugang per SSH erlaubt sein?" 0 0
-    response_ssh=$?
-    case $response_ssh in
-      0)
-        sudo ufw allow ssh
-        y
-        clear
-        echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - SSH is now allowed in UFW" >> /tmp/pi/logs/log.txt
-        dialog --title "Firewall Konfiguration" --msgbox "SSH Zugang ist jetzt erlaubt."
-        sudo ufw enable
-        echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - UFW is now enabled" >> /tmp/pi/logs/log.txt
-        dialog --title "Firewall Konfiguration" --msgbox "Firewall ist jetzt aktiviert"
-        ;;
-      1)
-        echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - SSH is not allowed in UFW" >> /tmp/pi/logs/log.txt
-        dialog --title "Firewall Konfiguration" --msgbox "SSH Zugang ist nicht erlaubt."
-        ;;
-      255)
-        echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort" >> /tmp/pi/logs/log.txt
-        ;;
-    esac
-    ;;
-  1)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - UFW is now disabled" >> /tmp/pi/logs/log.txt
-    dialog --title "Firewall Konfiguration" --msgbox "Firewall soll nicht aktiviert werden."
-    ;;
-  255)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort" >> /tmp/pi/logs/log.txt
-    ;;
-esac  
-
-# Abfrage ob eine IP-Adress Konfiguration stattfinden soll
-dialog --title "IP-Adresse" --yesno "Möchten Sie eine IP-Adresse festlegen?" 0 0
-response_ipadress=$?
-case $response_ipadress in
-  0)
-    check_netplan_installed
-    if $netplan_installed; then
-      clear
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Netplan is already installed,so this step is skipped." >> /tmp/pi/logs/log.txt
-      dialog --title "Netplan Installation" --msgbox "Netplan ist bereits installiert, daher wird dieser Schritt übersprungen."
-    else
-      clear
-      install_netplan
-    fi
-    # Sammle Informationen dazu welche IP verwendet werden soll
+CHOICE=$(dialog --title "Network Configuration" --yesno "Do you want to change your current IP address?" 0 0)
+  case $CHOICE in
+  yes)
+    sudo apt install netplan -y > /dev/null 2>&1
     ipadress=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0 2>&1 >/dev/tty)
     subnet_mask=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0 2>&1 >/dev/tty)
     gateway=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0 2>&1 >/dev/tty)
     dns1=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie den ersten DNS Server fest." 0 0 2>&1 >/dev/tty)
     dns2=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0 2>&1 >/dev/tty)
-
-    # Interface festlegen
     interface="eth0"
 
-    # Erstellen der Konfiguration mit Netplan
     sudo touch /etc/netplan/01-netcfg.yaml
     sudo chmod 600 /etc/netplan/01-netcfg.yaml
     sudo cat > /etc/netplan/01-netcfg.yaml <<EOL
@@ -264,64 +91,11 @@ network:
           via: $gateway
       nameservers: [$dns1,dns2]
 EOL
-
     # Konfiguration anwenden
     sudo netplan apply
-    clear
-
-    if [ $? -eq 0 ]; then
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The configuration was successfully applied." >> /tmp/pi/logs/log.txt
-      dialog --title "IP-Adress Konfiguration" --msgbox "Die Konfiguration wurde erfolgreich übernommen."
-    else
-      echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The configuration could not be applied." >> /tmp/pi/logs/log.txt
-      dialog --title "IP-Adress Konfiguration" --msgbox "Die Konfiguration konnte nicht übernommen werden."
-    fi
+    msg_ok "Changed IP address"
+  no)
+    msg_error "Selected no to change the IP address"
     ;;
-  1)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - The IP configuration was not changed." >> /tmp/pi/logs/log.txt
-    dialog --title "IP-Adress Konfiguration" --msgbox "Die Konfiguration wurde nicht verändert." ;;
-  255)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
-    echo -e "${YELLOW}Abbruch.${RESET}" ;;
-esac
+  esac
 
-# Autoupdate Abfrage
-dialog --title "Autoupdate aktivieren" --yesno "Möchten Sie Autoupdate aktivieren? Wenn ja, werden wöchentliche Updates automatisch Samstags um 00:00 Uhr durchgeführt." 0 0
-
-response_autoupdate=$?
-case $response_autoupdate in
-  0)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are activated." >> /tmp/pi/logs/log.txt
-    dialog --title "Automatische Updates" --msgbox "Automatische Updates werden aktiviert."
-    sudo mkdir -p /opt/update/
-    sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/main/setup/auto_update.sh
-    sudo chmod +x /opt/update/auto_update.sh
-    (crontab -l ; echo "0 0 * * 6 /opt/update/auto_update.sh") | crontab -
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic Updates are enabled." >> /tmp/pi/logs/log.txt
-    dialog --title "Automatische Updates" --msgbox "Automatische Updates sind aktiviert."
-    ;;
-  1)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Automatic updates are not activated." >> /tmp/pi/logs/log.txt
-    dialog --title "Automatische Updates" --msgbox "Automatische Updates werden nicht aktiviert." ;;
-  255)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
-    echo -e "${YELLOW}Abbruch.${RESET}" ;;
-esac
-
-# Benutzerabfrage, ob das System heruntergefahren werden soll
-dialog --title "Skript abgeschlossen" --yesno "Das Skript wurde abgeschlossen. Möchten Sie das System neu starten?" 0 0
-# Überprüft die Antwort auf die Benutzerabfrage
-response_restart=$?
-case $response_restart in
-  0)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Restarting Device." >> /tmp/pi/logs/log.txt
-    dialog --title "System neustart" --msgbox "Das System wird jetzt neu gestartet."
-    clear
-    sudo shutdown now ;; # Benutzer hat "Ja" ausgewählt, das System wird neu gestartet
-  1)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Device stays on." >> /tmp/pi/logs/log.txt
-    dialog --title "System neustart" --msgbox "Das System wird nicht neu gestartet." ;; # Benutzer hat "Nein" ausgewählt, das Skript wird beendet
-  255)
-    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - User chose to abort." >> /tmp/pi/logs/log.txt
-    echo -e "${RED}Abbruch.${RESET}" ;; # Benutzer hat Abbruch ausgewählt
-esac
