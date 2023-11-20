@@ -6,30 +6,27 @@
 # https://github.com/3nine/pi/main/LICENSE.md
 
 # Setze die Farben für die Ausgabe
-GREEN='\e[32m'
-BLUE='\e[34m'
-CYAN='\e[36m'
-YELLOW='\e[33m'
-RED='\e[31m'
-RESET='\e[0m'
+GREEN='\033[1;92m'
+YELLOW='\033[33m'
+RED='\033[01;31m'
+RESET='\033[m'
+HOLD="-"
+CM="${GREEN}✓${RESET}"
+CROSS="${RED}✗${RESET}"
 
 show_help() {
-  GREEN='\e[32m'
-  BLUE='\e[34m'
-  CYAN='\e[36m'
-  YELLOW='\e[33m'
-  RED='\e[31m'
-  RESET='\e[0m'
-  
-  echo -e "${GREEN}Dieses Skript fürt automatische Updates sowie Konfigurationen durch${RESET}"
-  echo -e "${GREEN}Es aktualisiert die Paketquellen, führt ein Paketupgrade durch und bietet die Option, bestimmte Services zu installieren.${RESET}"
-  echo -e "${CYAN}Verwendung:${RESET}"
-  echo -e "${CYAN}  ./scriptname              - Führt das Skript aus.${RESET}"
-  echo -e "${CYAN}  ./scriptname help or ?    - Zeigt diese Hilfe an.${RESET}"
-  exit 0
+  GREEN='\033[1;92m'
+  YELLOW='\033[33m'
+  RED='\033[01;31m'
+  RESET='\033[m'
+  HOLD="-"
+  CM="${GREEN}✓${RESET}"
+  CROSS="${RED}✗${RESET}"
+
+  ##### Hilfe
 }
 
-show_logo() {
+show_header() {
 cat <<"EOF"
   
    | |  | | | |                     | |          
@@ -43,17 +40,17 @@ EOF
 
 msg_ok() {
   local msg="$1"
-  echo -e "${BFR} ${CM} ${GN}${msg}${CL}"
+  echo -e "${RESET} ${CM} ${GREEN}${msg}${RESET}"
 }
 
 msg_info() {
   local msg="$1"
-  echo -ne " ${HOLD} ${YW}${msg}..."
+  echo -ne " ${HOLD} ${YELLOW}${msg}..."
 }
 
 msg_error() {
   local msg="$1"
-  echo -e "${BFR} ${CROSS} ${RD}${msg}${CL}"
+  echo -e "${RESET} ${CROSS} ${RED}${msg}${RESET}"
 }
 
 check_netplan_installed() {
@@ -114,7 +111,7 @@ if [ "$1" = "?" ] || [ "$1" = "help" ]; then
   show_help
 fi
 
-show_logo
+show_header
 
 clear
 sudo mkdir -p /tmp/pi/logs
