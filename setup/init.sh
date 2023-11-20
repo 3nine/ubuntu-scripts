@@ -88,8 +88,8 @@ CHOICE=$?
     dns2=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0 2>&1 >/dev/tty)
     interface="eth0"
 
-    touch /etc/netplan/01-netcfg.yaml
-    sudo chmod 600 /etc/netplan/01-netcfg.yaml
+    sudo touch /etc/netplan/01-netcfg.yaml
+    sudo chmod 766 /etc/netplan/01-netcfg.yaml
     sudo cat > /etc/netplan/01-netcfg.yaml <<EOL
 network:
   version: 2
