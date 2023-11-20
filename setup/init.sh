@@ -89,7 +89,6 @@ CHOICE=$?
     interface="eth0"
 
     sudo touch /etc/netplan/01-netcfg.yaml
-    sudo chmod 600 /etc/netplan/01-netcfg.yaml
     sudo cat > /etc/netplan/01-netcfg.yaml <<EOL
 network:
   version: 2
@@ -102,7 +101,7 @@ network:
           via: $gateway
       nameservers: [$dns1,$dns2]
 EOL
-    # Konfiguration anwenden
+    sudo chmod 600 /etc/netplan/01-netcfg.yaml
     sudo netplan apply
     msg_ok "Changed IP address"
     ;;
@@ -110,15 +109,6 @@ EOL
     msg_error "Selected no to change the IP address"
     ;;
   esac
-
-
-
-
-
-
-
-
-
 
   dialog --title "Automatic Updates" --yesno "Do you want to activate automatic updates?" 0 0
   CHOICE=$?
