@@ -20,13 +20,40 @@ show_help() {
   YELLOW='\e[33m'
   RED='\e[31m'
   RESET='\e[0m'
-
+  
   echo -e "${GREEN}Dieses Skript fürt automatische Updates sowie Konfigurationen durch${RESET}"
   echo -e "${GREEN}Es aktualisiert die Paketquellen, führt ein Paketupgrade durch und bietet die Option, bestimmte Services zu installieren.${RESET}"
   echo -e "${CYAN}Verwendung:${RESET}"
   echo -e "${CYAN}  ./scriptname              - Führt das Skript aus.${RESET}"
   echo -e "${CYAN}  ./scriptname help or ?    - Zeigt diese Hilfe an.${RESET}"
   exit 0
+}
+
+show_logo() {
+cat <<"EOF"
+  
+   | |  | | | |                     | |          
+   | |  | | | |__    _   _   _ __   | |_   _   _ 
+   | |  | | | '_ \  | | | | | '_ \  | __| | | | |
+   | |__| | | |_) | | |_| | | | | | | |_  | |_| |
+    \____/  |_.__/   \__,_| |_| |_|  \__|  \__,_|
+    
+EOF
+}
+
+msg_ok() {
+  local msg="$1"
+  echo -e "${BFR} ${CM} ${GN}${msg}${CL}"
+}
+
+msg_info() {
+  local msg="$1"
+  echo -ne " ${HOLD} ${YW}${msg}..."
+}
+
+msg_error() {
+  local msg="$1"
+  echo -e "${BFR} ${CROSS} ${RD}${msg}${CL}"
 }
 
 check_netplan_installed() {
@@ -45,41 +72,11 @@ check_ufw_installed() {
   fi
 }
 
-check_docker_installed() {
-  if dpkg -l | grep -q "docker-ce"; then
-    docker_installed=true
-  else
-    docker_installed=false
-  fi
-}
-
-check_docker_compose_installed() {
-  if dpkg -l | grep -q "docker-compose-plugin"; then
-    docker_compose_installed=true
-  else
-    docker_compose_installed=false
-  fi
-}
-
 install_ufw() {
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Staring installation of UFW." >> /tmp/pi/logs/log.txt
   sudo apt install ufw > /dev/null 2>&1
   dialog --title "UFW Installation" --msgbox "UFW wurde installiert."
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FINISHED - installation of UFW Finished." >> /tmp/pi/logs/log.txt
-}
-
-install_docker() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker." >> /tmp/pi/logs/log.txt
-  sudo curl -sSL https://get.docker.com/ | CHANNEL=stable sh > /dev/null 2>&1
-  dialog --title "Docker Installation" --msgbox "Docker wurde installiert."
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker Finished." >> /tmp/pi/logs/log.txt
-}
-
-install_docker_compose() {
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - INFO - Starting installation of Docker-Compose." >> /tmp/pi/logs/log.txt
-  sudo apt install docker-compose-plugin > /dev/null  2>&1
-  dialog --title "Docker-Compose Installation" --msgbox "Docker-Compose wurde installiert."
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') - FNISHED - Installation of Docker-Compose Finished." >> /tmp/pi/logs/log.txt
 }
 
 install_netplan() {
@@ -116,6 +113,8 @@ autoremove() {
 if [ "$1" = "?" ] || [ "$1" = "help" ]; then
   show_help
 fi
+
+show_logo
 
 clear
 sudo mkdir -p /tmp/pi/logs
