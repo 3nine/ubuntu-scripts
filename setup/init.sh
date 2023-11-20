@@ -57,7 +57,8 @@ msg_error() {
 }
 
 sudo_cache() {
-  sudo msg_ok "Sudo Cache enabled"
+  sudo msg_ok "Please enter Sudo password"
+  msg_ok "Sudo Cache enabled"
 }
 
 pause() {
@@ -72,6 +73,7 @@ if [ "$1" = "?" ] || [ "$1" = "help" ]; then
 fi
 
 show_header
+sudo_cache
 
 dialog --title "Network Configuration" --yesno "Do you want to change your current IP address?" 0 0
 CHOICE=$?
