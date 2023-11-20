@@ -84,9 +84,9 @@ CHOICE=$?
     dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0
     ipadress=$?
     if [ $ipadress -e 0 ]; then
-      msg_ok "test"
+      msg_ok "test: $ipadress"
     else
-      msg_error "No ip adress has been entered"
+      msg_error "No ip adress has been entered: $ipadress"
     fi
 
     
