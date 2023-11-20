@@ -67,7 +67,7 @@ fi
 
 show_header
 
-CHOICE=$(dialog --title "Network Configuration" --yesno "Do you want to change your current IP address?" 0 0)
+CHOICE=dialog --title "Network Configuration" --yesno "Do you want to change your current IP address?" 0 0
   case $CHOICE in
   yes)
     sudo apt install netplan -y > /dev/null 2>&1
