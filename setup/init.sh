@@ -83,12 +83,13 @@ CHOICE=$?
     sudo apt install netplan -y > /dev/null 2>&1
     dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0
     ipadress=$?
-    if [[ $ipadress =~ $ipv4_regex ]]; then
-        echo "Die IP-Adresse hat das richtige IPv4-Format: $ipadress"
-        break  # Die Schleife verlassen, wenn eine gültige Konfiguration eingegeben wurde
+    if [ $ipadress -e 0 ]; then
+      msg_ok "test"
     else
-        echo "Die IP-Adresse hat nicht das richtige IPv4-Format. Bitte erneut eingeben."
+      msg_error "No ip adress has been entered"
     fi
+
+    
     dialog --title "Network Configuration" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0
     subnet_mask=$?
     dialog --title "Network Configuration" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0
