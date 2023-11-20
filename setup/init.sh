@@ -81,23 +81,11 @@ CHOICE=$?
   0)
     ipv4_regex="^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
     sudo apt install netplan -y > /dev/null 2>&1
-    dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0
-    ipadress=$?
-    if [ $ipadress -e 0 ]; then
-      msg_ok "test: $ipadress"
-    else
-      msg_error "No ip adress has been entered: $ipadress"
-    fi
-
-    
-    dialog --title "Network Configuration" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0
-    subnet_mask=$?
-    dialog --title "Network Configuration" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0
-    gateway=$?
-    dialog --title "Network Configuration" --inputbox "Legen Sie den ersten DNS Server fest." 0 0
-    dns1=$?
-    dialog --title "Network Configuration" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0
-    dns2=$?
+    ipadress=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0 2>&1 >/dev/tty)
+    subnet_mask=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0 2>&1 >/dev/tty)
+    gateway=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0 2>&1 >/dev/tty)
+    dns1=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie den ersten DNS Server fest." 0 0 2>&1 >/dev/tty)
+    dns2=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0 2>&1 >/dev/tty)
     interface="eth0"
 
     sudo touch /etc/netplan/01-netcfg.yaml
