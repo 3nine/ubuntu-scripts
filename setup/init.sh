@@ -37,6 +37,8 @@ cat <<"EOF"
     \____/  |_.__/   \__,_| |_| |_|  \__|  \__,_|
     
 EOF
+
+read -p "Start the Ubuntu Configuration Script(y/n)?" yn
 }
 
 msg_ok() {
@@ -76,15 +78,15 @@ CHOICE=$?
   case $CHOICE in
   0)
     sudo apt install netplan -y > /dev/null 2>&1
-    dialog --title "IP-Adresse" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0
+    dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0
     ipadress=$?
-    dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0
+    dialog --title "Network Configuration" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0
     subnet_mask=$?
-    dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0
+    dialog --title "Network Configuration" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0
     gateway=$?
-    dialog --title "IP-Adresse" --inputbox "Legen Sie den ersten DNS Server fest." 0 0
+    dialog --title "Network Configuration" --inputbox "Legen Sie den ersten DNS Server fest." 0 0
     dns1=$?
-    dialog --title "IP-Adresse" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0
+    dialog --title "Network Configuration" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0
     dns2=$?
     interface="eth0"
 
