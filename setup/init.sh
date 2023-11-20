@@ -89,7 +89,7 @@ CHOICE=$?
     interface="eth0"
 
     sudo touch /etc/netplan/01-netcfg.yaml
-    sudo chmod 700 /etc/netplan/01-netcfg.yaml
+    sudo chmod 777 /etc/netplan/01-netcfg.yaml
     sudo cat > /etc/netplan/01-netcfg.yaml <<EOL
 network:
   version: 2
@@ -102,7 +102,6 @@ network:
           via: $gateway
       nameservers: [$dns1,$dns2]
 EOL
-    sudo chmod 600 /etc/netplan/01-netcfg.yaml
     sudo netplan apply > /dev/null 2>&1
     sudo rm -r /etc/netplan/00-installer-config.yaml > /dev/null 2>&1
     msg_ok "Changed IP address"
