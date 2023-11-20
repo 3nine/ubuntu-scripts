@@ -54,6 +54,10 @@ msg_error() {
   echo -e "${RESET} ${CROSS} ${RED}${msg}${RESET}"
 }
 
+sudo_cache() {
+  sudo msg_ok "Sudo Cache enabled"
+}
+
 pause() {
   sleep 2 # 2 Sekunden Pause
 }
@@ -72,11 +76,11 @@ CHOICE=$?
   case $CHOICE in
   0)
     sudo apt install netplan -y > /dev/null 2>&1
-    ipadress=$(dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0)
-    subnet_mask=$(dialog --title "Network Configuration" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0)
-    gateway=$(dialog --title "Network Configuration" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0)
-    dns1=$(dialog --title "Network Configuration" --inputbox "Legen Sie den ersten DNS Server fest." 0 0)
-    dns2=$(dialog --title "Network Configuration" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0)
+    ipadress=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0 2>&1 >/dev/tty)
+    subnet_mask=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0 2>&1 >/dev/tty)
+    gateway=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0 2>&1 >/dev/tty)
+    dns1=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie den ersten DNS Server fest." 0 0 2>&1 >/dev/tty)
+    dns2=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0 2>&1 >/dev/tty)
     interface="eth0"
 
     sudo touch /etc/netplan/01-netcfg.yaml
@@ -96,6 +100,7 @@ EOL
     # Konfiguration anwenden
     sudo netplan apply
     msg_ok "Changed IP address"
+    ;;
   1)
     msg_error "Selected no to change the IP address"
     ;;
