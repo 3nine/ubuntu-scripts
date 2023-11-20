@@ -72,11 +72,11 @@ CHOICE=$?
   case $CHOICE in
   0)
     sudo apt install netplan -y > /dev/null 2>&1
-    ipadress=$(dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)")
-    subnet_mask=$(dialog --title "Network Configuration" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)")
+    ipadress=$(dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0)
+    subnet_mask=$(dialog --title "Network Configuration" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0)
     gateway=$(dialog --title "Network Configuration" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0)
     dns1=$(dialog --title "Network Configuration" --inputbox "Legen Sie den ersten DNS Server fest." 0 0)
-    dns2=$(sudo dialog --title "Network Configuration" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0)
+    dns2=$(dialog --title "Network Configuration" --inputbox "Legen Sie den zweiten DNS Server fest." 0 0)
     interface="eth0"
 
     sudo touch /etc/netplan/01-netcfg.yaml
