@@ -95,7 +95,7 @@ network:
       routes:
         - to: default
           via: $gateway
-      nameservers: [$dns1,dns2]
+      nameservers: [$dns1,$dns2]
 EOL
     # Konfiguration anwenden
     sudo netplan apply
