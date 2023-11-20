@@ -67,9 +67,10 @@ fi
 
 show_header
 
-CHOICE=$(dialog --title "Network Configuration" --yesno "Do you want to change your current IP address?" 0 0)
+dialog --title "Network Configuration" --yesno "Do you want to change your current IP address?" 0 0
+CHOICE=$?
   case $CHOICE in
-  yes)
+  0)
     sudo apt install netplan -y > /dev/null 2>&1
     ipadress=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0 2>&1 >/dev/tty)
     subnet_mask=$(sudo dialog --title "IP-Adresse" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0 2>&1 >/dev/tty)
@@ -95,7 +96,7 @@ EOL
     # Konfiguration anwenden
     sudo netplan apply
     msg_ok "Changed IP address"
-  no)
+  1)
     msg_error "Selected no to change the IP address"
     ;;
   esac
