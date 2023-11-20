@@ -101,8 +101,9 @@ network:
           via: $gateway
       nameservers: [$dns1,$dns2]
 EOL
-    sudo chmod 600 /etc/netplan/01-netcfg.yaml
-    sudo netplan apply
+    sudo chmod 700 /etc/netplan/01-netcfg.yaml
+    sudo netplan apply > /dev/null 2>&1
+    sudo rm -r /etc/netplan/00-installer-config.yaml
     msg_ok "Changed IP address"
     ;;
   1)
