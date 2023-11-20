@@ -80,10 +80,19 @@ CHOICE=$?
     sudo apt install netplan -y > /dev/null 2>&1
     dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0
     ipadress=$?
+    ip_regex="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
     if [ $ipadress -eq 0 ]; then
-      echo "IP-Adresse festgelegt: $ip_address"
+      if [[ $ipadress =~ $ip_regex ]]; then
+        msg_ok "Adress Syntax"
+      else
+        clear
+        msg_error "Adress Syntax"
+        exit 0
+      fi
     else
-      echo "Abgebrochen"
+      clear
+      msg_error "Configuration Failed"
+      exit 0
     fi
     dialog --title "Network Configuration" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0
     subnet_mask=$?
