@@ -27,6 +27,7 @@ show_help() {
 }
 
 show_header() {
+clear
 cat <<"EOF"
   
    | |  | | | |                     | |          
