@@ -79,22 +79,15 @@ dialog --title "Network Configuration" --yesno "Do you want to change your curre
 CHOICE=$?
   case $CHOICE in
   0)
+    ipv4_regex="^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
     sudo apt install netplan -y > /dev/null 2>&1
     dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0
     ipadress=$?
-    ip_regex="^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-    if [ $ipadress -eq 0 ]; then
-      if [[ $ipadress =~ $ip_regex ]]; then
-        msg_ok "Adress Syntax"
-      else
-        clear
-        msg_error "Adress Syntax"
-        exit 0
-      fi
+    if [[ $ipadress =~ $ipv4_regex ]]; then
+        echo "Die IP-Adresse hat das richtige IPv4-Format: $ipadress"
+        break  # Die Schleife verlassen, wenn eine gültige Konfiguration eingegeben wurde
     else
-      clear
-      msg_error "Configuration Failed"
-      exit 0
+        echo "Die IP-Adresse hat nicht das richtige IPv4-Format. Bitte erneut eingeben."
     fi
     dialog --title "Network Configuration" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0
     subnet_mask=$?
