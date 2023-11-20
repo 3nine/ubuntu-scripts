@@ -127,3 +127,27 @@ EOL
     ;;
   esac
 
+
+
+
+
+
+
+
+
+
+  dialog --title "Automatic Updates" --yesno "Do you want to activate automatic updates?" 0 0
+  CHOICE=$?
+  case $CHOICE in
+  0)
+    sudo mkdir -p /opt/update/
+    sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/main/setup/auto_update.sh
+    sudo chmod +x /opt/update/auto_update.sh
+    (crontab -l ; echo "0 0 * * 6 /opt/update/auto_update.sh") | crontab -
+    msg_ok "Automatic Updates activated"
+    ;;
+  1)
+    msg_error "Selected no to auto-update"
+    ;;
+  esac
+
