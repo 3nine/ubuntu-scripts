@@ -80,6 +80,11 @@ CHOICE=$?
     sudo apt install netplan -y > /dev/null 2>&1
     dialog --title "Network Configuration" --inputbox "Legen Sie eine Ip-Adresse fest. (Format: X.X.X.X)" 0 0
     ipadress=$?
+    if [ $ipadress -eq 0 ]; then
+      echo "IP-Adresse festgelegt: $ip_address"
+    else
+      echo "Abgebrochen"
+    fi
     dialog --title "Network Configuration" --inputbox "Legen Sie eine Subnetzmaske fest. (Format: /XX)" 0 0
     subnet_mask=$?
     dialog --title "Network Configuration" --inputbox "Legen Sie ein Standard-Gateway fest." 0 0
