@@ -20,14 +20,15 @@ EOF
 
 show_summary() {
   show_header
-  echo "Summary"
+  echo "Summary:"
   if [ $sum_network ]; then
     msg_ok "Network configured"
   else
     msg_info "No Network configured"
   fi
-  
-  read -p "Press any key to exit"
+
+  echo " "
+  read -p "Press any key to exit "
   exit 0
 }
 
