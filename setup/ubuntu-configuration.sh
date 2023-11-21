@@ -26,9 +26,15 @@ show_summary() {
   else
     msg_info "No Network configured"
   fi
+  if [ $sum_update ]; then
+    msg_ok "Automatic Updates"
+  else
+    msg_info "No Automatic Updates"
+  fi
 
   echo " "
   read -p "Press any key to exit "
+  clear
   exit 0
 }
 
