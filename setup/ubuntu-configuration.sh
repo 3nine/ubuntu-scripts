@@ -27,14 +27,14 @@ show_summary() {
     msg_ok "Network configured"
   fi
   if [ $sum_updatenow ]; then
-    msg_ok "Updated Ubuntu"
-  else
     msg_info "Update recommended"
+  else
+    msg_ok "Updated Ubuntu"
   fi
   if [ $sum_autoupdate ]; then
-    msg_ok "Automatic Updates"
-  else
     msg_info "No Automatic Updates"
+  else
+    msg_ok "Automatic Updates"
   fi
   
   echo " "
@@ -57,7 +57,7 @@ msg_ok() {
 
 msg_info() {
   local msg="$1"
-  echo -ne " ${HOLD} ${YELLOW}${msg}...${RESET}"
+  echo -e " ${HOLD} ${YELLOW}${msg}...${RESET}"
 }
 
 msg_error() {
