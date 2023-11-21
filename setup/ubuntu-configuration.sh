@@ -115,4 +115,4 @@ while true; do
   esac
 done
 
-start_routines
+start_configuration
