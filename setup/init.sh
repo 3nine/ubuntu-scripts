@@ -5,27 +5,6 @@
 # License: MIT
 # https://github.com/3nine/pi/main/LICENSE.md
 
-# Setze die Farben für die Ausgabe
-GREEN='\033[1;92m'
-YELLOW='\033[33m'
-RED='\033[01;31m'
-RESET='\033[m'
-HOLD="-"
-CM="${GREEN}✓${RESET}"
-CROSS="${RED}✗${RESET}"
-
-show_help() {
-  GREEN='\033[1;92m'
-  YELLOW='\033[33m'
-  RED='\033[01;31m'
-  RESET='\033[m'
-  HOLD="-"
-  CM="${GREEN}✓${RESET}"
-  CROSS="${RED}✗${RESET}"
-
-  ##### Hilfe
-}
-
 show_header() {
 clear
 cat <<"EOF"
@@ -37,9 +16,16 @@ cat <<"EOF"
     \____/  |_.__/   \__,_| |_| |_|  \__|  \__,_|
     
 EOF
-
-read -p "Start the Ubuntu Configuration Script(y/n)?" yn
 }
+
+# Setze die Farben für die Ausgabe
+GREEN='\033[1;92m'
+YELLOW='\033[33m'
+RED='\033[01;31m'
+RESET='\033[m'
+HOLD="-"
+CM="${GREEN}✓${RESET}"
+CROSS="${RED}✗${RESET}"
 
 msg_ok() {
   local msg="$1"
@@ -117,3 +103,16 @@ EOL
       ;;
     esac
 }
+
+show_header
+echo -e "This Script will configure the system on your perhaps"
+while true; do
+  read -p "Start the Ubuntu Configuration Script (y/n)?" yn
+  case $yn in
+  [Yy]*) break ;;
+  [Nn]*) clear; exit ;;
+  *) echo "Please answer yes or no." ;;
+  esac
+done
+
+start_routines
