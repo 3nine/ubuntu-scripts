@@ -42,8 +42,6 @@ show_summary() {
   clear
   exit 0
 }
-
-# Setze die Farben für die Ausgabe
 GREEN='\033[1;92m'
 YELLOW='\033[33m'
 RED='\033[01;31m'
@@ -59,7 +57,7 @@ msg_ok() {
 
 msg_info() {
   local msg="$1"
-  echo -e " ${HOLD} ${YELLOW}${msg}...${RESET}"
+  echo -ne " ${HOLD} ${YELLOW}${msg}...${RESET}"
 }
 
 msg_error() {
@@ -117,10 +115,9 @@ EOL
     CHOICE=$?
     case $CHOICE in
     0)
-      msg_info "Updating Ubuntu (Patience)"
-      apt-get update &>/dev/null
-      apt-get -y dist-upgrade &>/dev/null
-      msg_ok "Updated Ubuntu"
+      sudo apt-get update &>/dev/null
+      sudo apt-get -y dist-upgrade &>/dev/null
+      sudo apt-get autoremove &>/dev/null
       sum_updatenow=true
       ;;
     1)
