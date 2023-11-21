@@ -70,10 +70,6 @@ sudo_cache() {
   msg_ok "Sudo Cache enabled"
 }
 
-pause() {
-  sleep 2 # 2 Sekunden Pause
-}
-
 start_configuration() {
   dialog --title "Network Configuration" --yesno "Do you want to change your current IP address?" 0 0
   CHOICE=$?
