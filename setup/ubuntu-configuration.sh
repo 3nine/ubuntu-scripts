@@ -104,10 +104,10 @@ start_configuration() {
 EOL
       sudo netplan apply > /dev/null 2>&1
       sudo rm -r /etc/netplan/00-installer-config.yaml > /dev/null 2>&1
-      msg_ok "Changed IP address"
+      sum_network=true
       ;;
     1)
-      msg_error "Selected no to change the IP address"
+      sum_network=false
       ;;
     esac
 
