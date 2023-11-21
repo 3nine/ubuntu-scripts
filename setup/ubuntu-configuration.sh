@@ -24,6 +24,7 @@ show_summary() {
     msg_ok "Network configured"
   else
     msg_info " No Network configured"
+  fi
 }
 
 # Setze die Farben für die Ausgabe
