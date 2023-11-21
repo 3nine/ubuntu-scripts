@@ -59,7 +59,7 @@ msg_ok() {
 
 msg_info() {
   local msg="$1"
-  echo -ne " ${HOLD} ${YELLOW}${msg}...${RESET}"
+  echo -e " ${HOLD} ${YELLOW}${msg}...${RESET}"
 }
 
 msg_error() {
@@ -143,7 +143,6 @@ EOL
       sum_autoupdate=false
       ;;
     esac
-
     show_summary
 }
 
@@ -156,6 +155,7 @@ while true; do
   [Nn]*) clear; exit ;;
   *) echo "Please answer yes or no." ;;
   esac
+  sudo_cache
 done
 
 start_configuration
