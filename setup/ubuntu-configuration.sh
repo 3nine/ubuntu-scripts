@@ -21,20 +21,20 @@ EOF
 show_summary() {
   show_header
   echo "Summary:"
-  if [ $sum_network ]; then
-    msg_info "No Network configured"
-  else
+  if [[ $sum_network == true ]]; then
     msg_ok "Network configured"
-  fi
-  if [ $sum_updatenow ]; then
-    msg_info "Update recommended"
   else
+    msg_info "No Network configured"
+  fi
+  if [[ $sum_updatenow == true ]]; then
     msg_ok "Updated Ubuntu"
-  fi
-  if [ $sum_autoupdate ]; then
-    msg_info "No Automatic Updates"
   else
+    msg_info "Update recommended"
+  fi
+  if [[ $sum_autoupdate == true ]]; then
     msg_ok "Automatic Updates"
+  else
+    msg_info "No Automatic Updates"
   fi
   
   echo " "
