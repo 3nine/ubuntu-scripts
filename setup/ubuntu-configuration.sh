@@ -22,19 +22,31 @@ show_summary() {
   show_header
   echo "Summary:"
   if [[ $sum_network == true ]]; then
+    echo $sum_network
     msg_ok "Network configured"
+    echo $sum_network
   else
+    echo $sum_network
     msg_info "No Network configured"
+    echo $sum_network
   fi
   if [[ $sum_updatenow == true ]]; then
+    echo $sum_updatenow 
     msg_ok "Updated Ubuntu"
+    echo $sum_updatenow
   else
+    echo $sum_updatenow
     msg_info "Update recommended"
+    echo $sum_updatenow
   fi
   if [[ $sum_autoupdate == true ]]; then
+    echo $sum_autoupdate
     msg_ok "Automatic Updates"
+    echo $sum_autoupdate
   else
+    echo $sum_autoupdate
     msg_info "No Automatic Updates"
+    echo $sum_autoupdate
   fi
   
   echo " "
