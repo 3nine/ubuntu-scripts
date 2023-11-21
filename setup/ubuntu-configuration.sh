@@ -22,9 +22,9 @@ show_summary() {
   show_header
   echo "Summary:"
   if [ $sum_network ]; then
-    msg_ok "Network configured"
-  else
     msg_info "No Network configured"
+  else
+    msg_ok "Network configured"
   fi
   if [ $sum_updatenow ]; then
     msg_ok "Updated Ubuntu"
