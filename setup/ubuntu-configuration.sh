@@ -26,7 +26,12 @@ show_summary() {
   else
     msg_info "No Network configured"
   fi
-  if [ $sum_update ]; then
+  if [ $sum_updatenow ]; then
+    msg_ok "Updated Ubuntu"
+  else
+    msg_info "Update recommended"
+  fi
+  if [ $sum_autoupdate ]; then
     msg_ok "Automatic Updates"
   else
     msg_info "No Automatic Updates"
@@ -107,6 +112,22 @@ EOL
       msg_error "Selected no to change the IP address"
       ;;
     esac
+
+    dialog --title "Ubuntu Updates" --yesno "Update Ubuntu now?" 0 0
+    CHOICE=$?
+    case $CHOICE in
+    0)
+      msg_info "Updating Proxmox VE (Patience)"
+      apt-get update &>/dev/null
+      apt-get -y dist-upgrade &>/dev/null
+      msg_ok "Updated Proxmox VE"
+      sum_updatenow=true
+      ;;
+    1)
+    msg_error "Selected no to Updating Proxmox VE"
+      sum_updatenow=false
+      ;;
+    esac
   
     dialog --title "Automatic Updates" --yesno "Do you want to activate automatic updates?" 0 0
     CHOICE=$?
@@ -116,10 +137,10 @@ EOL
       sudo curl -o /opt/update/auto_update.sh https://raw.githubusercontent.com/3nine/pi/main/setup/auto_update.sh
       sudo chmod +x /opt/update/auto_update.sh
       (crontab -l ; echo "0 0 * * 6 /opt/update/auto_update.sh") | crontab -
-      sum_network=true
+      sum_autoupdate=true
       ;;
     1)
-      sum_network=false
+      sum_autoupdate=false
       ;;
     esac
 
