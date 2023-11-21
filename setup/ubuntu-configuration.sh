@@ -51,6 +51,7 @@ show_summary() {
     *) echo "Please answer yes or no." ;;
     esac
   done
+  do_conf
 }
 
 do_conf() {
