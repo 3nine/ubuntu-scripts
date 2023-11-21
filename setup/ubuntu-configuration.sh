@@ -136,6 +136,18 @@ EOL
       sum_autoupdate=false
       ;;
     esac
+
+    dialog --title "Reboot" --yesno "Update Ubuntu now?" 0 0
+    CHOICE=$?
+    case $CHOICE in
+    0)
+      sum_updatenow=true
+      ;;
+    1)
+      msg_error "Selected no to Updating Ubuntu"
+      sum_updatenow=false
+      ;;
+    esac
     show_summary
 }
 
