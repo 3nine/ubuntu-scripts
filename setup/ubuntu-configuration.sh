@@ -43,10 +43,40 @@ show_summary() {
   fi
   
   echo " "
-  read -p "Press any key to exit "
-  clear
-  exit 0
+  while true; do
+    read -p "Start Configuration (y/n)?" yn
+    case $yn in
+    [Yy]*) break ;;
+    [Nn]*) clear; exit ;;
+    *) echo "Please answer yes or no." ;;
+    esac
+  done
 }
+
+do_conf() {
+  if [[ $sum_network == true ]]; then
+    do_netconf
+  else
+    msg_info "Selected no to Configure"
+  fi
+  if [[ $sum_updatenow ]]; then
+    do_updatenow
+  else
+    msg_info "Selected no to Configure"
+  fi
+  if [[ $sum_autoupdate ]]; then
+    do_autoupdate
+  else
+    msg_info "Selected no to Configure"
+  fi
+  if [[ $sum_reboot ]]; then
+    do_reboot
+  else
+    msg_info "Selected no to Configure"
+  fi
+  
+}
+
 GREEN='\033[1;92m'
 YELLOW='\033[33m'
 RED='\033[01;31m'
