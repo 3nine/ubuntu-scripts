@@ -7,7 +7,7 @@
 
 show_header() {
 clear
-cat <<"EOF"
+cat <<EOF
   
    | |  | | | |                     | |          
    | |  | | | |__    _   _   _ __   | |_   _   _ 
