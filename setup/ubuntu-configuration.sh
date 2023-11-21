@@ -31,7 +31,7 @@ show_summary() {
   else
     msg_info "No Automatic Updates"
   fi
-
+  
   echo " "
   read -p "Press any key to exit "
   clear
@@ -54,7 +54,7 @@ msg_ok() {
 
 msg_info() {
   local msg="$1"
-  echo -ne " ${HOLD} ${YELLOW}${msg}..."
+  echo -ne " ${HOLD} ${YELLOW}${msg}...${RESET}"
 }
 
 msg_error() {
