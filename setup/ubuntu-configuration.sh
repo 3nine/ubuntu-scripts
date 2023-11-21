@@ -36,6 +36,11 @@ show_summary() {
   else
     msg_info "No Automatic Updates"
   fi
+  if [[ $sum_reboot == true ]]; then
+    msg_ok "Reboot"
+  else
+    msg_info "No Reboot"
+  fi
   
   echo " "
   read -p "Press any key to exit "
@@ -141,11 +146,10 @@ EOL
     CHOICE=$?
     case $CHOICE in
     0)
-      sum_updatenow=true
+      sum_reboot=true
       ;;
     1)
-      msg_error "Selected no to Updating Ubuntu"
-      sum_updatenow=false
+      sum_reboot=false
       ;;
     esac
     show_summary
