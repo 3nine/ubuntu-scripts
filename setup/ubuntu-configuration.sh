@@ -117,14 +117,14 @@ EOL
     CHOICE=$?
     case $CHOICE in
     0)
-      msg_info "Updating Proxmox VE (Patience)"
+      msg_info "Updating Ubuntu (Patience)"
       apt-get update &>/dev/null
       apt-get -y dist-upgrade &>/dev/null
-      msg_ok "Updated Proxmox VE"
+      msg_ok "Updated Ubuntu"
       sum_updatenow=true
       ;;
     1)
-    msg_error "Selected no to Updating Proxmox VE"
+      msg_error "Selected no to Updating Ubuntu"
       sum_updatenow=false
       ;;
     esac
