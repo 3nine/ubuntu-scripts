@@ -55,14 +55,6 @@ check_version_format() {
   fi
 }
 
-check_powershell_installed() {
-  if dpkg -l | grep "powershell"
-    return 0
-  else
-    sudo apt install powershell
-  fi
-}
-
 #######################################################################
 #                                                                     #
 #                           Start des Skripts                         #
@@ -94,19 +86,6 @@ if [[ "$response" == *"Not Found"* ]]; then
   echo "${RED}Die Version $NEWVER wurde auf GitHub nicht gefunden.${RESET}"
 else
   clear
-  # Erstelle einen Prüfpunkt mit dem Namen "Vor Update vX.X.X"
-  check_powershell_installed
-  HYPERV_HOST="Hyper-V06"
-  VM_NAME="netbox_test"
-  SNAPSHOTNAME=date +%s "Vor Update v" $OLDVERPSHOT
-  BACKUP_USER=""
-
-  # Pwershell Befehl zum erstellen des Prüfpunkts
-  PS_COMMAND="Checkpoint-VM -Name $VM_NAME" -SnapshotName $SNAPSHOTNAME
-
-  # Powershell-Befehl ausführen
-  ssh $BACKUP_USER@$HYPERV_HOST powershell.exe -Command "$PS_COMMAND"
-  
   echo "${GREEN}Die Version $NEWVER wurde auf GitHub gefunden.${RESET}"
   # Downloade gefundene Version von GitHub, entpacke sie und setze das Verzeichnis als neuen Symlink
   wget https://github.com/netbox-community/netbox/archive/v$NEWVER.tar.gz
